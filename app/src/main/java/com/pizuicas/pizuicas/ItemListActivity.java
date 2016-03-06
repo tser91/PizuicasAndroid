@@ -4,21 +4,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.pizuicas.pizuicas.application.ShopifyApplication;
+import com.shopify.buy.model.Product;
 
-import com.pizuicas.pizuicas.dummy.DummyContent;
-
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * An activity representing a list of Items. This activity
@@ -30,11 +35,21 @@ import java.util.List;
  */
 public class ItemListActivity extends AppCompatActivity {
 
+    private final String TAG = ItemListActivity.class.getName();
+
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
     private boolean mTwoPane;
+
+    private List<Product> productsToShow;
+
+    private boolean isFetching;
+
+    protected ShopifyApplication getSampleApplication() {
+        return (ShopifyApplication) getApplication();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +59,9 @@ public class ItemListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
+
+        isFetching = false;
+        productsToShow = new ArrayList<Product>();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -67,16 +85,38 @@ public class ItemListActivity extends AppCompatActivity {
         }
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS));
+    private void setupRecyclerView(@NonNull final RecyclerView recyclerView) {
+
+        Callback<List<Product>> callback = new Callback<List<Product>>() {
+            @Override
+            public void success(List<Product> products, Response response) {
+                //dismissLoadingDialog();
+                onFetchedProducts(products, recyclerView);
+                Log.d(TAG, "success fetching products");
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                //onError(error);
+                Log.d(TAG, "failure fetching products");
+            }
+        };
+
+        getSampleApplication().getAllProducts(callback);
+
+    }
+
+    private void onFetchedProducts(List<Product> products, RecyclerView recyclerView) {
+        productsToShow = products;
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(productsToShow));
     }
 
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<DummyContent.DummyItem> mValues;
+        private final List<Product> mValues;
 
-        public SimpleItemRecyclerViewAdapter(List<DummyContent.DummyItem> items) {
+        public SimpleItemRecyclerViewAdapter(List<Product> items) {
             mValues = items;
         }
 
@@ -90,15 +130,15 @@ public class ItemListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
+            holder.mIdView.setText(mValues.get(position).getTitle());
+            holder.mContentView.setText(mValues.get(position).getBodyHtml());
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        //arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
                         ItemDetailFragment fragment = new ItemDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
@@ -107,7 +147,7 @@ public class ItemListActivity extends AppCompatActivity {
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, ItemDetailActivity.class);
-                        intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        //intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
 
                         context.startActivity(intent);
                     }
@@ -124,7 +164,7 @@ public class ItemListActivity extends AppCompatActivity {
             public final View mView;
             public final TextView mIdView;
             public final TextView mContentView;
-            public DummyContent.DummyItem mItem;
+            public Product mItem;
 
             public ViewHolder(View view) {
                 super(view);
