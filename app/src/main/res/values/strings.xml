@@ -13,6 +13,8 @@
     <string name="error">Error! See logcat for details.</string>
     <string name="shop_error">Error! Could not load shop</string>
 
+    <string name="product_to_cart">Product added to cart</string>
+
     <string name="choose_collection">Choose Collection</string>
     <string name="all_products">All Products</string>
 

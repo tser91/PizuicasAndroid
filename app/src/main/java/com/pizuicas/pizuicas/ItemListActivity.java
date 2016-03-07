@@ -48,8 +48,6 @@ public class ItemListActivity extends AppCompatActivity {
 
     private List<Product> productsToShow;
 
-    private boolean isFetching;
-
     protected ShopifyApplication getShopifyApplication() {
         return (ShopifyApplication) getApplication();
     }
@@ -63,7 +61,6 @@ public class ItemListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        isFetching = false;
         productsToShow = new ArrayList<Product>();
 
         View recyclerView = findViewById(R.id.item_list);
@@ -167,7 +164,7 @@ public class ItemListActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.getProductId());
+                        arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.toJsonString());
                         ItemDetailFragment fragment = new ItemDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
@@ -176,9 +173,7 @@ public class ItemListActivity extends AppCompatActivity {
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, ItemDetailActivity.class);
-                        Log.d(TAG, "onClick productId:" + holder.mItem.getProductId());
-                        intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.getProductId());
-
+                        intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.toJsonString());
                         context.startActivity(intent);
                     }
                 }
