@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.pizuicas.pizuicas.application.ShopifyApplication;
 import com.pizuicas.pizuicas.provider.product.ProductColumns;
 import com.pizuicas.pizuicas.provider.product.ProductCursor;
 import com.pizuicas.pizuicas.provider.product.ProductSelection;
@@ -33,7 +35,6 @@ public class ItemDetailFragment extends Fragment {
      * The item content this fragment is presenting.
      */
     private DetailProduct mItem;
-
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -41,6 +42,10 @@ public class ItemDetailFragment extends Fragment {
     public ItemDetailFragment() {
 
         mItem = new DetailProduct();
+    }
+
+    protected ShopifyApplication getShopifyApplication() {
+        return (ShopifyApplication) getActivity().getApplication();
     }
 
     @Override
@@ -87,6 +92,14 @@ public class ItemDetailFragment extends Fragment {
                 appBarLayout.setTitle(mItem.getTitle());
             }
         }
+
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: Add to cart");
+            }
+        });
     }
 
     @Override

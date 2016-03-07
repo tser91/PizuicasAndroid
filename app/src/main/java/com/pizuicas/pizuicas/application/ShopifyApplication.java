@@ -1,10 +1,7 @@
 package com.pizuicas.pizuicas.application;
 
-import android.app.Activity;
 import android.app.Application;
-import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.pizuicas.pizuicas.R;
@@ -15,8 +12,6 @@ import com.shopify.buy.model.Cart;
 import com.shopify.buy.model.Checkout;
 import com.shopify.buy.model.Product;
 import com.shopify.buy.model.Shop;
-import com.shopify.buy.ui.ProductDetailsBuilder;
-import com.shopify.buy.ui.ProductDetailsTheme;
 
 import java.util.List;
 
@@ -133,19 +128,6 @@ public class ShopifyApplication extends Application {
 
     public void getCheckoutCompletionStatus(final Callback<Boolean> callback) {
         buyClient.getCheckoutCompletionStatus(checkout, callback);
-    }
-
-    public void launchProductDetailsActivity(Activity activity, Product product, ProductDetailsTheme theme) {
-        Log.d(ShopifyApplication.class.getSimpleName(), "launchProductDetailsActivity: "+ product.getTitle() + ", " + theme.describeContents());
-        ProductDetailsBuilder builder = new ProductDetailsBuilder(this, buyClient);
-        Intent intent = builder.setShopDomain(buyClient.getShopDomain())
-                .setProduct(product)
-                .setTheme(theme)
-                .setShop(shop)
-                .setWebReturnToUrl(getString(R.string.web_return_to_url))
-                .setWebReturnToLabel(getString(R.string.web_return_to_label))
-                .build();
-        activity.startActivityForResult(intent, 1);
     }
 
     /**
