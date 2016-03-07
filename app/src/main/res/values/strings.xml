@@ -60,6 +60,7 @@
     <string name="web_return_to_scheme">mobilebuysample</string>
     <string name="web_return_to_url">"mobilebuysample://"</string>
     <string name="web_return_to_label">"Return to Mobile Buy Sample</string>
+    <string name="title_activity_cart">CartActivity</string>
 
 
 </resources>

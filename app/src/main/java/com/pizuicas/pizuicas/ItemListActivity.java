@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -68,6 +70,7 @@ public class ItemListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
+
         productsToShow = new ArrayList<Product>();
 
         View recyclerView = findViewById(R.id.item_list);
@@ -86,6 +89,31 @@ public class ItemListActivity extends AppCompatActivity {
         // Obtain the shared Tracker instance.
         mTracker = getShopifyApplication().getDefaultTracker();
         // [END shared_tracker]
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.main_menu_goto_cart:
+                gotoCart();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void gotoCart() {
+        Log.d(TAG, "gotoCart: ");
+        Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+        startActivity(intent);
     }
 
     private void setupRecyclerView(@NonNull final RecyclerView recyclerView) {
