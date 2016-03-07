@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.pizuicas.pizuicas.application.ShopifyApplication;
 import com.shopify.buy.model.Product;
 
@@ -29,6 +31,10 @@ public class ItemDetailFragment extends Fragment {
      */
     public static final String ARG_ITEM_ID = "item_id";
     private final String TAG = ItemDetailFragment.class.getName();
+    /**
+     * The {@link Tracker} used to record screen views.
+     */
+    private Tracker mTracker;
     /**
      * The item content this fragment is presenting.
      */
@@ -67,8 +73,17 @@ public class ItemDetailFragment extends Fragment {
                 Log.d(TAG, "onClick: Add to cart");
                 getShopifyApplication().addProductToCart(mItem);
                 Toast.makeText(getContext(), getResources().getString(R.string.product_to_cart), Toast.LENGTH_SHORT).show();
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Action")
+                        .setAction("AddCart")
+                        .build());
             }
         });
+
+        // [START shared_tracker]
+        // Obtain the shared Tracker instance.
+        mTracker = getShopifyApplication().getDefaultTracker();
+        // [END shared_tracker]
     }
 
     @Override
@@ -82,6 +97,19 @@ public class ItemDetailFragment extends Fragment {
         }
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
+
+        final Tracker tracker = getShopifyApplication().getDefaultTracker();
+        if(tracker != null){
+
+            tracker.setScreenName(getClass().getSimpleName());
+            tracker.send(new HitBuilders.ScreenViewBuilder().build());
+        }
     }
 
 }

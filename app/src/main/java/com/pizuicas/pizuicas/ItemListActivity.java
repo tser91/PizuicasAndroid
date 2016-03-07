@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.pizuicas.pizuicas.application.ShopifyApplication;
 import com.pizuicas.pizuicas.provider.product.ProductContentValues;
 import com.shopify.buy.dataprovider.BuyClient;
@@ -48,6 +50,11 @@ public class ItemListActivity extends AppCompatActivity {
 
     private List<Product> productsToShow;
 
+    /**
+     * The {@link Tracker} used to record screen views.
+     */
+    private Tracker mTracker;
+
     protected ShopifyApplication getShopifyApplication() {
         return (ShopifyApplication) getApplication();
     }
@@ -74,6 +81,11 @@ public class ItemListActivity extends AppCompatActivity {
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
+
+        // [START shared_tracker]
+        // Obtain the shared Tracker instance.
+        mTracker = getShopifyApplication().getDefaultTracker();
+        // [END shared_tracker]
     }
 
     private void setupRecyclerView(@NonNull final RecyclerView recyclerView) {
@@ -135,6 +147,19 @@ public class ItemListActivity extends AppCompatActivity {
             ContentUris.parseId(uri);
         }
 
+    }
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
+
+        final Tracker tracker = getShopifyApplication().getDefaultTracker();
+        if(tracker != null){
+
+            tracker.setScreenName(getClass().getSimpleName());
+            tracker.send(new HitBuilders.ScreenViewBuilder().build());
+        }
     }
 
     public class SimpleItemRecyclerViewAdapter
