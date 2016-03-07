@@ -10,6 +10,13 @@ import com.pizuicas.pizuicas.provider.base.BaseModel;
 public interface ProductModel extends BaseModel {
 
     /**
+     * Get the {@code shopify_id} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    String getShopifyId();
+
+    /**
      * Get the {@code title} value.
      * Can be {@code null}.
      */

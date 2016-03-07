@@ -24,6 +24,16 @@ public class ProductCursor extends AbstractCursor implements ProductModel {
     }
 
     /**
+     * Get the {@code shopify_id} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public String getShopifyId() {
+        String res = getStringOrNull(ProductColumns.SHOPIFY_ID);
+        return res;
+    }
+
+    /**
      * Get the {@code title} value.
      * Can be {@code null}.
      */

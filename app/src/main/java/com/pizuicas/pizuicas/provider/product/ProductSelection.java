@@ -76,6 +76,46 @@ public class ProductSelection extends AbstractSelection<ProductSelection> {
         return orderById(false);
     }
 
+    public ProductSelection shopifyId(String... value) {
+        addEquals(ProductColumns.SHOPIFY_ID, value);
+        return this;
+    }
+
+    public ProductSelection shopifyIdNot(String... value) {
+        addNotEquals(ProductColumns.SHOPIFY_ID, value);
+        return this;
+    }
+
+    public ProductSelection shopifyIdLike(String... value) {
+        addLike(ProductColumns.SHOPIFY_ID, value);
+        return this;
+    }
+
+    public ProductSelection shopifyIdContains(String... value) {
+        addContains(ProductColumns.SHOPIFY_ID, value);
+        return this;
+    }
+
+    public ProductSelection shopifyIdStartsWith(String... value) {
+        addStartsWith(ProductColumns.SHOPIFY_ID, value);
+        return this;
+    }
+
+    public ProductSelection shopifyIdEndsWith(String... value) {
+        addEndsWith(ProductColumns.SHOPIFY_ID, value);
+        return this;
+    }
+
+    public ProductSelection orderByShopifyId(boolean desc) {
+        orderBy(ProductColumns.SHOPIFY_ID, desc);
+        return this;
+    }
+
+    public ProductSelection orderByShopifyId() {
+        orderBy(ProductColumns.SHOPIFY_ID, false);
+        return this;
+    }
+
     public ProductSelection title(String... value) {
         addEquals(ProductColumns.TITLE, value);
         return this;

@@ -39,6 +39,7 @@ public class DBSQLiteOpenHelper extends SQLiteOpenHelper {
     public static final String SQL_CREATE_TABLE_PRODUCT = "CREATE TABLE IF NOT EXISTS "
             + ProductColumns.TABLE_NAME + " ( "
             + ProductColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + ProductColumns.SHOPIFY_ID + " TEXT, "
             + ProductColumns.TITLE + " TEXT DEFAULT 'Item name not available', "
             + ProductColumns.DESCRIPTION + " TEXT DEFAULT 'Item description not available', "
             + ProductColumns.PRICE + " REAL DEFAULT 'Item price not available', "

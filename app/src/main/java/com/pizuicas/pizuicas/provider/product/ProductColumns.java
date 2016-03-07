@@ -17,6 +17,8 @@ public class ProductColumns implements BaseColumns {
      */
     public static final String _ID = BaseColumns._ID;
 
+    public static final String SHOPIFY_ID = "shopify_id";
+
     public static final String TITLE = "title";
 
     public static final String DESCRIPTION = "description";
@@ -31,6 +33,7 @@ public class ProductColumns implements BaseColumns {
     // @formatter:off
     public static final String[] ALL_COLUMNS = new String[] {
             _ID,
+            SHOPIFY_ID,
             TITLE,
             DESCRIPTION,
             PRICE,
@@ -41,6 +44,7 @@ public class ProductColumns implements BaseColumns {
     public static boolean hasColumns(String[] projection) {
         if (projection == null) return true;
         for (String c : projection) {
+            if (c.equals(SHOPIFY_ID) || c.contains("." + SHOPIFY_ID)) return true;
             if (c.equals(TITLE) || c.contains("." + TITLE)) return true;
             if (c.equals(DESCRIPTION) || c.contains("." + DESCRIPTION)) return true;
             if (c.equals(PRICE) || c.contains("." + PRICE)) return true;

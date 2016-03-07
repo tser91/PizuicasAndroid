@@ -1,7 +1,9 @@
 package com.pizuicas.pizuicas;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -14,8 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pizuicas.pizuicas.application.ShopifyApplication;
+import com.pizuicas.pizuicas.provider.product.ProductContentValues;
+import com.shopify.buy.dataprovider.BuyClient;
 import com.shopify.buy.model.Product;
 
 import java.util.ArrayList;
@@ -97,7 +102,7 @@ public class ItemListActivity extends AppCompatActivity {
 
             @Override
             public void failure(RetrofitError error) {
-                //onError(error);
+                onError(error);
                 Log.d(TAG, "failure fetching products");
             }
         };
@@ -106,9 +111,44 @@ public class ItemListActivity extends AppCompatActivity {
 
     }
 
+    protected void onError(RetrofitError error) {
+        onError(BuyClient.getErrorBody(error));
+    }
+
+    /**
+     * When we encounter an error with one of our network calls, we abort and return to the previous activity.
+     * In a production app, you'll want to handle these types of errors more gracefully.
+     *
+     * @param errorMessage
+     */
+    protected void onError(String errorMessage) {
+        //progressDialog.dismiss();
+        Log.e(TAG, "Error: " + errorMessage);
+        Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
+        finish();
+    }
+
     private void onFetchedProducts(List<Product> products, RecyclerView recyclerView) {
+        Product tempProduct;
+        ProductContentValues productValues;
+
         productsToShow = products;
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(productsToShow));
+
+        /* Store the products information into the DB using content provider */
+        for (int index = 0; index < productsToShow.size(); index++) {
+            tempProduct = productsToShow.get(index);
+
+            productValues = new ProductContentValues();
+            productValues.putTitle(tempProduct.getTitle())
+                    .putDescription(tempProduct.getBodyHtml())
+                    .putImage(tempProduct.getImage(tempProduct.getVariants().get(0)).getSrc().getBytes())
+                    .putShopifyId(tempProduct.getProductId())
+                    .putPrice(Double.valueOf(tempProduct.getVariants().get(0).getPrice()));
+            Uri uri = productValues.insert(getContentResolver());
+            ContentUris.parseId(uri);
+        }
+
     }
 
     public class SimpleItemRecyclerViewAdapter
@@ -138,7 +178,7 @@ public class ItemListActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        //arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.getProductId());
                         ItemDetailFragment fragment = new ItemDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
@@ -147,7 +187,8 @@ public class ItemListActivity extends AppCompatActivity {
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, ItemDetailActivity.class);
-                        //intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        Log.d(TAG, "onClick productId:" + holder.mItem.getProductId());
+                        intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.getProductId());
 
                         context.startActivity(intent);
                     }
