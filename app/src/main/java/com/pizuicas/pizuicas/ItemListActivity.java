@@ -111,7 +111,10 @@ public class ItemListActivity extends AppCompatActivity {
     }
 
     private void gotoCart() {
-        Log.d(TAG, "gotoCart: ");
+        Log.d(TAG, "gotoCart: ");mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("GoToCart")
+                .build());
         Intent intent = new Intent(getApplicationContext(), CartActivity.class);
         startActivity(intent);
     }

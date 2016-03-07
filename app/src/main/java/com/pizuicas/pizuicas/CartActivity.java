@@ -7,7 +7,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.google.android.gms.analytics.Tracker;
+import com.pizuicas.pizuicas.application.ShopifyApplication;
+
 public class CartActivity extends AppCompatActivity {
+
+    /**
+     * The {@link Tracker} used to record screen views.
+     */
+    private Tracker mTracker;
+
+    protected ShopifyApplication getShopifyApplication() {
+        return (ShopifyApplication) getApplication();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +36,11 @@ public class CartActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        // [START shared_tracker]
+        // Obtain the shared Tracker instance.
+        mTracker = getShopifyApplication().getDefaultTracker();
+        // [END shared_tracker]
     }
 
 }
