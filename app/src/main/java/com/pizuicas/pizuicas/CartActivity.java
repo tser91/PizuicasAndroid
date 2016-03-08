@@ -102,7 +102,8 @@ public class CartActivity extends AppCompatActivity {
     }
 
     /**
-     * When we encounter an error with one of our network calls, we abort and return to the previous activity.
+     * When we encounter an error with one of our network calls,
+     * we abort and return to the previous activity.
      * In a production app, you'll want to handle these types of errors more gracefully.
      *
      * @param errorMessage
@@ -173,7 +174,7 @@ public class CartActivity extends AppCompatActivity {
                 mView = view;
                 //TODO FIX THIS IDS
                 mTitleView = (TextView) view.findViewById(R.id.id);
-                mPriceView = (TextView) view.findViewById(R.id.content);
+                mPriceView = (TextView) view.findViewById(R.id.price);
                 mQuantityView = (TextView) view.findViewById(R.id.content);
             }
 

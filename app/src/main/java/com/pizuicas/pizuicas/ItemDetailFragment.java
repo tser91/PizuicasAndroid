@@ -30,6 +30,7 @@ public class ItemDetailFragment extends Fragment {
      * represents.
      */
     public static final String ARG_ITEM_ID = "item_id";
+    public static final String KEY_ITEM_JSON = "KEY_ITEM_JSON";
     private final String TAG = ItemDetailFragment.class.getName();
     /**
      * The {@link Tracker} used to record screen views.
@@ -60,7 +61,8 @@ public class ItemDetailFragment extends Fragment {
             mItem = Product.fromJson(getArguments().getString(ARG_ITEM_ID));
 
             Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+            CollapsingToolbarLayout appBarLayout =
+                    (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
                 appBarLayout.setTitle(mItem.getTitle());
             }
@@ -87,6 +89,16 @@ public class ItemDetailFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if (savedInstanceState != null
+                && savedInstanceState.get(KEY_ITEM_JSON) != null){
+            mItem = Product.fromJson(savedInstanceState.getString(KEY_ITEM_JSON));
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.item_detail, container, false);
@@ -97,6 +109,13 @@ public class ItemDetailFragment extends Fragment {
         }
 
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(KEY_ITEM_JSON, mItem.toJsonString());
     }
 
     @Override

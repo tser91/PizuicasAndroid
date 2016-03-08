@@ -43,6 +43,7 @@ import retrofit.client.Response;
 public class ItemListActivity extends AppCompatActivity {
 
     private final String TAG = ItemListActivity.class.getName();
+    private final String PRODUCT_LIST_KEY = "PRODUCT_LIST_KEY";
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -75,7 +76,19 @@ public class ItemListActivity extends AppCompatActivity {
 
         View recyclerView = findViewById(R.id.item_list);
         assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+
+        if (savedInstanceState != null
+                && savedInstanceState.get(PRODUCT_LIST_KEY) != null) {
+            ArrayList<String> savedProductList =
+                    (ArrayList<String>) savedInstanceState.get(PRODUCT_LIST_KEY);
+            for (int i = 0; i < savedProductList.size(); i++) {
+                productsToShow.add(Product.fromJson(savedProductList.get(i)));
+            }
+            ((RecyclerView) recyclerView).setAdapter(new SimpleItemRecyclerViewAdapter(productsToShow));
+        }
+        else {
+            setupRecyclerView((RecyclerView) recyclerView);
+        }
 
         if (findViewById(R.id.item_detail_container) != null) {
             // The detail container view will be present only in the
@@ -108,6 +121,16 @@ public class ItemListActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        ArrayList<String> listProducts = null;
+        for (int index = 0; index < productsToShow.size(); index++) {
+            listProducts.add(productsToShow.get(index).toJsonString());
+        }
+        outState.putStringArrayList(PRODUCT_LIST_KEY, listProducts);
     }
 
     private void gotoCart() {
@@ -145,7 +168,8 @@ public class ItemListActivity extends AppCompatActivity {
     }
 
     /**
-     * When we encounter an error with one of our network calls, we abort and return to the previous activity.
+     * When we encounter an error with one of our network calls,
+     * we abort and return to the previous activity.
      * In a production app, you'll want to handle these types of errors more gracefully.
      *
      * @param errorMessage
@@ -171,7 +195,8 @@ public class ItemListActivity extends AppCompatActivity {
             productValues = new ProductContentValues();
             productValues.putTitle(tempProduct.getTitle())
                     .putDescription(tempProduct.getBodyHtml())
-                    .putImage(tempProduct.getImage(tempProduct.getVariants().get(0)).getSrc().getBytes())
+                    .putImage(tempProduct.getImage(
+                            tempProduct.getVariants().get(0)).getSrc().getBytes())
                     .putShopifyId(tempProduct.getProductId())
                     .putPrice(Double.valueOf(tempProduct.getVariants().get(0).getPrice()));
             Uri uri = productValues.insert(getContentResolver());
@@ -220,7 +245,8 @@ public class ItemListActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.toJsonString());
+                        arguments.putString(
+                                ItemDetailFragment.ARG_ITEM_ID, holder.mItem.toJsonString());
                         ItemDetailFragment fragment = new ItemDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
@@ -229,7 +255,8 @@ public class ItemListActivity extends AppCompatActivity {
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, ItemDetailActivity.class);
-                        intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.toJsonString());
+                        intent.putExtra(
+                                ItemDetailFragment.ARG_ITEM_ID, holder.mItem.toJsonString());
                         context.startActivity(intent);
                     }
                 }
