@@ -47,6 +47,7 @@ public class CartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(getResources().getString(R.string.cart));
         setSupportActionBar(toolbar);
 
         View recyclerView = findViewById(R.id.item_list);

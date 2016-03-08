@@ -39,6 +39,7 @@
     <string name="discount_code">Discount Code</string>
     <string name="gift_card_code">Gift Card Code</string>
     <string name="checkout">Checkout</string>
+    <string name="cart">Cart</string>
     <string name="discount_error">Could not apply discount code %s</string>
     <string name="gift_card_error">Could not apply gift card code %s</string>
 
@@ -86,7 +87,6 @@
     <string name="err_msg_province">Enter your province</string>
     <string name="err_msg_zip">Enter your zip code</string>
     <string name="err_msg_country">Enter your country code</string>
-
 
 
 </resources>
