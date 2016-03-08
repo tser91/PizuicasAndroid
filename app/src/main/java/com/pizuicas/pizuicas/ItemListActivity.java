@@ -242,6 +242,7 @@ public class ItemListActivity extends AppCompatActivity {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
+            //TODO FIX THIS IDS
             public final View mView;
             public final TextView mIdView;
             public final TextView mContentView;

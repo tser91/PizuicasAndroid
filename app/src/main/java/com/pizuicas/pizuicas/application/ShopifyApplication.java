@@ -11,6 +11,7 @@ import com.shopify.buy.dataprovider.BuyClient;
 import com.shopify.buy.dataprovider.BuyClientFactory;
 import com.shopify.buy.model.Address;
 import com.shopify.buy.model.Cart;
+import com.shopify.buy.model.CartLineItem;
 import com.shopify.buy.model.Checkout;
 import com.shopify.buy.model.Product;
 import com.shopify.buy.model.Shop;
@@ -99,12 +100,9 @@ public class ShopifyApplication extends Application {
      * Create a new checkout with the selected product. For convenience in the sample app we will hardcode the user's shipping address.
      * The shipping rates fetched in ShippingRateListActivity will be for this address.
      *
-     * @param product
      * @param callback
      */
-    public void createCheckout(final Product product, final Callback<Checkout> callback) {
-
-        cart.addVariant(product.getVariants().get(0));
+    public void createCheckout(final Callback<Checkout> callback) {
 
         checkout = new Checkout(cart);
 
@@ -128,6 +126,10 @@ public class ShopifyApplication extends Application {
 
     public Checkout getCheckout() {
         return checkout;
+    }
+
+    public List<CartLineItem> getCartItems() {
+        return cart.getLineItems();
     }
 
     public void getCheckoutCompletionStatus(final Callback<Boolean> callback) {
