@@ -3,6 +3,7 @@ package com.pizuicas.pizuicas;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,10 +15,16 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.pizuicas.pizuicas.application.ShopifyApplication;
+import com.shopify.buy.dataprovider.BuyClient;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class CheckoutInformationActivity extends AppCompatActivity {
 
@@ -219,6 +226,56 @@ public class CheckoutInformationActivity extends AppCompatActivity {
         if (view.requestFocus()) {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
+    }
+
+    private void pollCheckoutCompletionStatus() {
+
+        Callback<Boolean> callback = new Callback<Boolean>() {
+            @Override
+            public void success(Boolean complete, Response response) {
+                if (complete) {
+                    // Notify the user that the order is complete
+                    Log.d(TAG, "success: order has been completed");
+                    Toast.makeText(
+                            getApplicationContext(),
+                            getResources().getString(R.string.checkout_complete),
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            pollCheckoutCompletionStatus();
+                        }
+                    }, 250);
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                onError(error);
+            }
+        };
+
+        getShopifyApplication().getCheckoutCompletionStatus(callback);
+
+    }
+
+    protected void onError(RetrofitError error) {
+        onError(BuyClient.getErrorBody(error));
+    }
+
+    /**
+     * When we encounter an error with one of our network calls,
+     * we abort and return to the previous activity.
+     * In a production app, you'll want to handle these types of errors more gracefully.
+     *
+     * @param errorMessage
+     */
+    protected void onError(String errorMessage) {
+        //progressDialog.dismiss();
+        Log.e(TAG, "Error: " + errorMessage);
+        Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
+        finish();
     }
 
     private class PisuicasTextWatcher implements TextWatcher {
