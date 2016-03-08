@@ -126,7 +126,7 @@ public class ItemListActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        ArrayList<String> listProducts = null;
+        ArrayList<String> listProducts = new ArrayList<String>();;
         for (int index = 0; index < productsToShow.size(); index++) {
             listProducts.add(productsToShow.get(index).toJsonString());
         }
@@ -134,7 +134,8 @@ public class ItemListActivity extends AppCompatActivity {
     }
 
     private void gotoCart() {
-        Log.d(TAG, "gotoCart: ");mTracker.send(new HitBuilders.EventBuilder()
+        Log.d(TAG, "gotoCart: ");
+        mTracker.send(new HitBuilders.EventBuilder()
                 .setCategory("Action")
                 .setAction("GoToCart")
                 .build());

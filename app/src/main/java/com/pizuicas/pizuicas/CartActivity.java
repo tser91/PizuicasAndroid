@@ -1,7 +1,6 @@
 package com.pizuicas.pizuicas;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -85,8 +84,11 @@ public class CartActivity extends AppCompatActivity {
                 //dismissLoadingDialog();
                 //onCheckoutCreated(checkout);
                 Log.d(TAG, "success: checkout created");
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(checkout.getWebUrl()));
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Action")
+                        .setAction("GoToCheckoutInformation")
+                        .build());
+                Intent intent = new Intent(getApplicationContext(), CheckoutInformationActivity.class);
                 startActivity(intent);
             }
 

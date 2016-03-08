@@ -58,10 +58,35 @@
 
     <!-- Custom URL Scheme -->
     <string name="web_return_to_scheme">pizuicas.com</string>
-    <string name="web_return_to_url">"http://pizuicas.com/"</string>
-    <string name="web_return_to_label">"Return to Mobile Buy Sample</string>
+    <string name="web_return_to_url">http://pizuicas.com/</string>
+    <string name="web_return_to_label">Return to Mobile Buy Sample</string>
     <string name="title_activity_cart">CartActivity</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_checkout_information">CheckoutInformationActivity</string>
+
+    <string name="action_settings">Settings</string>
+
+
+    <!-- Form hints -->
+    <string name="reg_form_name">First name</string>
+    <string name="reg_form_last_name">Last name</string>
+    <string name="reg_form_address">Address</string>
+    <string name="reg_form_city">City</string>
+    <string name="reg_form_province">Province</string>
+    <string name="reg_form_zip">Zip</string>
+    <string name="reg_form_country_code">Country Code</string>
+    <string name="reg_form_email">Email</string>
+
+    <!-- Form errors -->
+    <string name="err_msg_name">Enter your name</string>
+    <string name="err_msg_last_name">Enter your last name</string>
+    <string name="err_msg_email">Enter valid email address</string>
+    <string name="err_msg_address">Enter your address</string>
+    <string name="err_msg_city">Enter your city</string>
+    <string name="err_msg_province">Enter your province</string>
+    <string name="err_msg_zip">Enter your zip code</string>
+    <string name="err_msg_country">Enter your country code</string>
+
 
 
 </resources>
