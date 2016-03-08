@@ -58,9 +58,9 @@
     <string name="total">Total</string>
 
     <!-- Custom URL Scheme -->
-    <string name="web_return_to_scheme">pizuicas.com</string>
-    <string name="web_return_to_url">http://pizuicas.com/</string>
-    <string name="web_return_to_label">Return to Mobile Buy Sample</string>
+    <string name="web_return_to_scheme">pizuicas</string>
+    <string name="web_return_to_url">pizuicas://shop</string>
+    <string name="web_return_to_label">Return to Pizuicas Android App</string>
     <string name="title_activity_cart">CartActivity</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_checkout_information">CheckoutInformationActivity</string>
