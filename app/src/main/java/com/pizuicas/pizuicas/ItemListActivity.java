@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,11 +24,13 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.pizuicas.pizuicas.application.ShopifyApplication;
 import com.pizuicas.pizuicas.provider.product.ProductContentValues;
+import com.pizuicas.pizuicas.provider.product.ProductSelection;
 import com.pizuicas.pizuicas.ui.DynamicHeightNetworkImageView;
 import com.pizuicas.pizuicas.ui.ImageLoaderHelper;
 import com.shopify.buy.dataprovider.BuyClient;
 import com.shopify.buy.model.Product;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -157,14 +160,19 @@ public class ItemListActivity extends AppCompatActivity {
             @Override
             public void success(List<Product> products, Response response) {
                 //dismissLoadingDialog();
-                onFetchedProducts(products, recyclerView);
+                try {
+                    onFetchedProducts(products, recyclerView);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                    Log.e(TAG, "failure fetching products" );
+                }
                 Log.d(TAG, "success fetching products");
             }
 
             @Override
             public void failure(RetrofitError error) {
                 onError(error);
-                Log.d(TAG, "failure fetching products");
+                Log.d(TAG, "failure getting products from online store");
             }
         };
 
@@ -190,27 +198,39 @@ public class ItemListActivity extends AppCompatActivity {
         finish();
     }
 
-    private void onFetchedProducts(List<Product> products, RecyclerView recyclerView) {
+    private void onFetchedProducts(List<Product> products, RecyclerView recyclerView) throws MalformedURLException {
         Product tempProduct;
         ProductContentValues productValues;
 
         productsToShow = products;
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(productsToShow));
 
         /* Store the products information into the DB using content provider */
         for (int index = 0; index < productsToShow.size(); index++) {
             tempProduct = productsToShow.get(index);
 
+            new ProductImageRetriever() {
+                @Override public void onPostExecute(Pair result)
+                {
+                    ProductSelection where = new ProductSelection();
+                    where.shopifyId((String) result.first);
+
+                    ProductContentValues productValues= new ProductContentValues();
+                    productValues.putImage((byte[])result.second);
+                    productValues.update(getApplicationContext(), where);
+                    Log.d(TAG, "HEY HOY: " + result.second.toString());
+                }
+            }.execute(tempProduct);
+
             productValues = new ProductContentValues();
             productValues.putTitle(tempProduct.getTitle())
                     .putDescription(tempProduct.getBodyHtml())
-                    .putImage(tempProduct.getImage(
-                            tempProduct.getVariants().get(0)).getSrc().getBytes())
                     .putShopifyId(tempProduct.getProductId())
                     .putPrice(Double.valueOf(tempProduct.getVariants().get(0).getPrice()));
             Uri uri = productValues.insert(getContentResolver());
             ContentUris.parseId(uri);
         }
+
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(productsToShow));
 
     }
 
@@ -250,7 +270,10 @@ public class ItemListActivity extends AppCompatActivity {
             holder.mPriceView.setText(mValues.get(position).getVariants().get(0).getPrice());
             holder.mImageView.setImageUrl(
                     mValues.get(position).getImages().get(0).getSrc(),
-                     ImageLoaderHelper.getInstance(ItemListActivity.this).getImageLoader());
+                    ImageLoaderHelper.getInstance(ItemListActivity.this).getImageLoader());
+
+            //TODO FIX THIS
+            // holder.mImageView.setAspectRatio(ratio);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -280,12 +303,6 @@ public class ItemListActivity extends AppCompatActivity {
             return mValues.size();
         }
 
-        private int dpToPx(int dp)
-        {
-            float density = getResources().getDisplayMetrics().density;
-            return Math.round((float) dp * density);
-        }
-
         public class ViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
             public final TextView mTitleView;
@@ -302,4 +319,5 @@ public class ItemListActivity extends AppCompatActivity {
             }
         }
     }
+
 }
