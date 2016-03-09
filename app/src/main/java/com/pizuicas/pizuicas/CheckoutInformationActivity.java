@@ -21,6 +21,8 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.pizuicas.pizuicas.application.ShopifyApplication;
 import com.shopify.buy.dataprovider.BuyClient;
+import com.shopify.buy.model.Address;
+import com.shopify.buy.model.Checkout;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -68,9 +70,7 @@ public class CheckoutInformationActivity extends AppCompatActivity {
                             .setCategory("Action")
                             .setAction("GoToCheckoutWeb")
                             .build());
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(getShopifyApplication().getCheckout().getWebUrl()));
-                    startActivity(intent);
+                    setCheckoutInfo();
                 }
             }
         });
@@ -107,6 +107,44 @@ public class CheckoutInformationActivity extends AppCompatActivity {
         // Obtain the shared Tracker instance.
         mTracker = getShopifyApplication().getDefaultTracker();
         // [END shared_tracker]
+    }
+
+    private void createCheckout(Address address, String email) {
+        getShopifyApplication().createCheckout(address, email, new Callback<Checkout>() {
+            @Override
+            public void success(Checkout checkout, Response response) {
+                //dismissLoadingDialog();
+                //onCheckoutCreated(checkout);
+                Log.d(TAG, "success: checkout created");
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Action")
+                        .setAction("GoToCheckoutWeb")
+                        .build());
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(getShopifyApplication().getCheckout().getWebUrl()));
+                startActivity(intent);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                onError(error);
+            }
+        });
+    }
+
+    private void setCheckoutInfo() {
+
+        Address address = new Address();
+        address.setAddress1(inputAddress.getText().toString());
+        address.setCity(inputCity.getText().toString());
+        address.setCountryCode(inputCountryCode.getText().toString());
+        address.setFirstName(inputName.getText().toString());
+        address.setLastName(inputLastName.getText().toString());
+        address.setProvince(inputProvince.getText().toString());
+        address.setZip(inputZip.getText().toString());
+
+        createCheckout(address, inputEmail.getText().toString());
     }
 
     /**
@@ -212,7 +250,9 @@ public class CheckoutInformationActivity extends AppCompatActivity {
     }
 
     private boolean validateCountryCode() {
-        if (inputCountryCode.getText().toString().trim().isEmpty()) {
+        if (inputCountryCode.getText().toString().trim().isEmpty() ) {
+                //|| !inputCountryCode.getText().toString().equals(
+                  //      getResources().getString(R.string.costa_rica_code)) ) {
             inputLayoutCountryCode.setError(getString(R.string.err_msg_country));
             requestFocus(inputCountryCode);
             return false;

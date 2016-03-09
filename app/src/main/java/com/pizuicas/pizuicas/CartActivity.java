@@ -7,25 +7,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.pizuicas.pizuicas.application.ShopifyApplication;
-import com.shopify.buy.dataprovider.BuyClient;
 import com.shopify.buy.model.CartLineItem;
-import com.shopify.buy.model.Checkout;
 
 import java.util.List;
-
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class CartActivity extends AppCompatActivity {
 
@@ -58,7 +50,7 @@ public class CartActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createCheckout();
+                gotoCheckout();
                 mTracker.send(new HitBuilders.EventBuilder()
                         .setCategory("Action")
                         .setAction("Checkout")
@@ -76,46 +68,11 @@ public class CartActivity extends AppCompatActivity {
      * When the user selects a product, create a new checkout for that product.
      *
      */
-    private void createCheckout() {
+    private void gotoCheckout() {
         //showLoadingDialog(R.string.syncing_data);
 
-        getShopifyApplication().createCheckout(new Callback<Checkout>() {
-            @Override
-            public void success(Checkout checkout, Response response) {
-                //dismissLoadingDialog();
-                //onCheckoutCreated(checkout);
-                Log.d(TAG, "success: checkout created");
-                mTracker.send(new HitBuilders.EventBuilder()
-                        .setCategory("Action")
-                        .setAction("GoToCheckoutInformation")
-                        .build());
-                Intent intent = new Intent(getApplicationContext(), CheckoutInformationActivity.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                onError(error);
-            }
-        });
-    }
-
-    protected void onError(RetrofitError error) {
-        onError(BuyClient.getErrorBody(error));
-    }
-
-    /**
-     * When we encounter an error with one of our network calls,
-     * we abort and return to the previous activity.
-     * In a production app, you'll want to handle these types of errors more gracefully.
-     *
-     * @param errorMessage
-     */
-    protected void onError(String errorMessage) {
-        //progressDialog.dismiss();
-        Log.e(TAG, "Error: " + errorMessage);
-        Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
-        finish();
+        Intent intent = new Intent(getApplicationContext(), CheckoutInformationActivity.class);
+        startActivity(intent);
     }
 
     private void setupRecyclerView(@NonNull final RecyclerView recyclerView) {

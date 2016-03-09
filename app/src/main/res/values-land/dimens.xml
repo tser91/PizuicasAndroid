@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- appbar -->
+    <dimen name="appbar_backdrop_height">128dp</dimen>
+    <dimen name="appbar_height">48dp</dimen>
+
+
+</resources>

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,8 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.pizuicas.pizuicas.application.ShopifyApplication;
 import com.pizuicas.pizuicas.provider.product.ProductContentValues;
+import com.pizuicas.pizuicas.ui.DynamicHeightNetworkImageView;
+import com.pizuicas.pizuicas.ui.ImageLoaderHelper;
 import com.shopify.buy.dataprovider.BuyClient;
 import com.shopify.buy.model.Product;
 
@@ -74,7 +77,7 @@ public class ItemListActivity extends AppCompatActivity {
 
         productsToShow = new ArrayList<Product>();
 
-        View recyclerView = findViewById(R.id.item_list);
+        View recyclerView = findViewById(R.id.card_list);
         assert recyclerView != null;
 
         if (savedInstanceState != null
@@ -90,7 +93,12 @@ public class ItemListActivity extends AppCompatActivity {
             setupRecyclerView((RecyclerView) recyclerView);
         }
 
-        if (findViewById(R.id.item_detail_container) != null) {
+        int columnCount = getResources().getInteger(R.integer.list_column_count);
+        StaggeredGridLayoutManager sglm =
+                new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
+        ((RecyclerView) recyclerView).setLayoutManager(sglm);
+
+        if (findViewById(R.id.card_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
             // If this view is present, then the
@@ -231,15 +239,18 @@ public class ItemListActivity extends AppCompatActivity {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_list_content, parent, false);
+                    .inflate(R.layout.card_list_content, parent, false);
             return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
-            holder.mIdView.setText(mValues.get(position).getTitle());
-            holder.mContentView.setText(mValues.get(position).getBodyHtml());
+            holder.mTitleView.setText(mValues.get(position).getTitle());
+            holder.mPriceView.setText(mValues.get(position).getVariants().get(0).getPrice());
+            holder.mImageView.setImageUrl(
+                    mValues.get(position).getImages().get(0).getSrc(),
+                     ImageLoaderHelper.getInstance(ItemListActivity.this).getImageLoader());
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -269,23 +280,25 @@ public class ItemListActivity extends AppCompatActivity {
             return mValues.size();
         }
 
+        private int dpToPx(int dp)
+        {
+            float density = getResources().getDisplayMetrics().density;
+            return Math.round((float) dp * density);
+        }
+
         public class ViewHolder extends RecyclerView.ViewHolder {
-            //TODO FIX THIS IDS
             public final View mView;
-            public final TextView mIdView;
-            public final TextView mContentView;
+            public final TextView mTitleView;
+            public final TextView mPriceView;
+            public final DynamicHeightNetworkImageView mImageView;
             public Product mItem;
 
             public ViewHolder(View view) {
                 super(view);
                 mView = view;
-                mIdView = (TextView) view.findViewById(R.id.id);
-                mContentView = (TextView) view.findViewById(R.id.content);
-            }
-
-            @Override
-            public String toString() {
-                return super.toString() + " '" + mContentView.getText() + "'";
+                mTitleView = (TextView) view.findViewById(R.id.item_title);
+                mPriceView = (TextView) view.findViewById(R.id.item_price);
+                mImageView = (DynamicHeightNetworkImageView) view.findViewById(R.id.thumbnail);
             }
         }
     }

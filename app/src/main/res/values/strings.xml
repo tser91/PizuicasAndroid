@@ -88,5 +88,7 @@
     <string name="err_msg_zip">Enter your zip code</string>
     <string name="err_msg_country">Enter your country code</string>
 
+    <string name="costa_rica_code">CR</string>
+
 
 </resources>

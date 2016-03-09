@@ -102,21 +102,13 @@ public class ShopifyApplication extends Application {
      *
      * @param callback
      */
-    public void createCheckout(final Callback<Checkout> callback) {
+    public void createCheckout(Address address, String email, final Callback<Checkout> callback) {
 
         checkout = new Checkout(cart);
 
-        Address address = new Address();
-        address.setFirstName("Dinosaur");
-        address.setLastName("Banana");
-        address.setAddress1("421 8th Ave");
-        address.setCity("New York");
-        address.setProvince("NY");
-        address.setZip("10001");
-        address.setCountryCode("US");
         checkout.setShippingAddress(address);
 
-        checkout.setEmail("something@somehost.com");
+        checkout.setEmail(email);
 
         checkout.setWebReturnToUrl(getString(R.string.web_return_to_url));
         checkout.setWebReturnToLabel(getString(R.string.web_return_to_label));

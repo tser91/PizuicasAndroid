@@ -6,4 +6,20 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+    <style name="Theme.Pizuicas" parent="@style/Theme.AppCompat.NoActionBar">
+
+        <item name="android:windowContentTransitions">true</item>
+
+        <item name="colorPrimary">@color/theme_primary</item>
+        <item name="colorPrimaryDark">@color/theme_primary_dark</item>
+        <item name="colorAccent">@color/theme_accent</item>
+        <item name="android:colorBackground">@color/theme_primary_light</item>
+        <item name="android:navigationBarColor">@color/theme_primary_dark</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:colorPrimary">@color/theme_primary</item>
+        <item name="android:colorPrimaryDark">@color/theme_primary_dark</item>
+        <item name="android:colorAccent">@color/theme_accent</item>
+        <item name="android:textColorPrimaryInverse">@android:color/white</item>
+    </style>
 </resources>
