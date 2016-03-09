@@ -3,6 +3,8 @@ package com.pizuicas.pizuicas;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,6 +33,7 @@ import com.shopify.buy.dataprovider.BuyClient;
 import com.shopify.buy.model.Product;
 
 import java.net.MalformedURLException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -214,8 +217,24 @@ public class ItemListActivity extends AppCompatActivity {
                     ProductSelection where = new ProductSelection();
                     where.shopifyId((String) result.first);
 
+                    /* Resize Image */
+                    byte[] imageBytes = (byte[])result.second;
+                    Bitmap b = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                    float ratio = b.getWidth()/b.getHeight();
+                    int width = Math.round(getResources().getDimension(R.dimen.card_width));
+
+                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(b, width, Math.round(width / ratio), false);
+
+                    //calculate how many bytes our image consists of.
+                    int bytes = scaledBitmap.getByteCount();
+
+                    ByteBuffer buffer = ByteBuffer.allocate(bytes); //Create a new buffer
+                    scaledBitmap.copyPixelsToBuffer(buffer); //Move the byte data to the buffer
+
+                    byte[] finalArray = buffer.array(); //Get the underlying array containing the data.
+
                     ProductContentValues productValues= new ProductContentValues();
-                    productValues.putImage((byte[])result.second);
+                    productValues.putImage(finalArray);
                     productValues.update(getApplicationContext(), where);
                     Log.d(TAG, "HEY HOY: " + result.second.toString());
                 }
