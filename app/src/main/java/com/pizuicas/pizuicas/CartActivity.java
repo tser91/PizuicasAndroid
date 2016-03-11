@@ -112,8 +112,11 @@ public class CartActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
-            holder.mTitleView.setText(mValues.get(position).getTitle());
+            holder.mTitleView.setText(mValues.get(position).getVariant().getProductTitle());
             holder.mPriceView.setText(mValues.get(position).getPrice());
+            holder.mPriceView.setText(
+                    String.valueOf( (float) (Float.valueOf(mValues.get(position).getPrice()) *
+                            mValues.get(position).getQuantity())));
             holder.mQuantityView.setText(String.valueOf(mValues.get(position).getQuantity()));
         }
 
