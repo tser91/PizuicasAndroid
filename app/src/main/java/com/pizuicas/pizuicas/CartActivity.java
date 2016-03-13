@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,13 +30,12 @@ import java.util.List;
 
 public class CartActivity extends AppCompatActivity {
 
+    public TextView mTotalQuantityView;
     /**
      * The {@link Tracker} used to record screen views.
      */
     private Tracker mTracker;
-
     private String TAG = CartActivity.class.getName();
-
     private List<CartLineItem> cartProducts;
 
     protected ShopifyApplication getShopifyApplication() {
@@ -65,6 +65,9 @@ public class CartActivity extends AppCompatActivity {
                         .build());
             }
         });
+
+        mTotalQuantityView = (TextView) findViewById(R.id.textView_cart_total_quantity);
+        mTotalQuantityView.setText(getShopifyApplication().getCurrency() + " " + getTotal());
 
         // [START shared_tracker]
         // Obtain the shared Tracker instance.
@@ -102,6 +105,17 @@ public class CartActivity extends AppCompatActivity {
             tracker.send(new HitBuilders.ScreenViewBuilder().build());
         }
     }
+
+    private float getTotal() {
+        float total = 0;
+        for (int index = 0; index < cartProducts.size(); index++) {
+            total += Float.valueOf(cartProducts.get(index).getPrice()) *
+                    cartProducts.get(index).getQuantity();
+        }
+        Log.d(TAG, "getTotal: " + total);
+        return total;
+    }
+
 
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
@@ -147,6 +161,8 @@ public class CartActivity extends AppCompatActivity {
             holder.mImageView.setImageUrl(
                     tempProduct.getImages().get(0).getSrc(),
                     ImageLoaderHelper.getInstance(CartActivity.this).getImageLoader());
+
+            //TODO Fix This
             //holder.mImageView.setAspectRatio((float) 0.8);
         }
 
