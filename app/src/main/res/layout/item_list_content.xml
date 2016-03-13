@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
@@ -33,7 +34,7 @@
         android:id="@+id/cart_item_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
+        android:layout_marginLeft="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem"
         android:textColor="@color/colorAccent"
         android:textStyle="bold" />
@@ -45,13 +46,18 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/cart_item_quantity"
+        <com.vi.swipenumberpicker.SwipeNumberPicker
+            android:id="@+id/number_picker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
             android:layout_margin="@dimen/text_margin"
-            android:textSize="@dimen/text_medium" />
+            app:snp_arrowColor="@android:color/white"
+            app:snp_backgroundColor="@color/colorAccent"
+            app:snp_max="100"
+            app:snp_min="1"
+            app:snp_numberColor="@android:color/white"/>
 
         <TextView
             android:id="@+id/cart_item_delete"

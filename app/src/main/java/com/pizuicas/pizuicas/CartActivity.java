@@ -25,6 +25,8 @@ import com.pizuicas.pizuicas.ui.ImageLoaderHelper;
 import com.pizuicas.pizuicas.ui.SimpleDividerItemDecoration;
 import com.shopify.buy.model.CartLineItem;
 import com.shopify.buy.model.Product;
+import com.vi.swipenumberpicker.OnValueChangeListener;
+import com.vi.swipenumberpicker.SwipeNumberPicker;
 
 import java.util.List;
 
@@ -134,14 +136,10 @@ public class CartActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.mItem = mValues.get(position);
             holder.mTitleView.setText(mValues.get(position).getVariant().getProductTitle());
-            holder.mPriceView.setText(
-                    getShopifyApplication().getCurrency() + " " +
-                    String.valueOf((float) (Float.valueOf(mValues.get(position).getPrice()) *
-                            mValues.get(position).getQuantity())));
-            holder.mQuantityView.setText(String.valueOf(mValues.get(position).getQuantity()));
+            setItemPrice(holder.mPriceView, position);
 
             String[] projection = { ProductColumns.JSONOBJECT};
             ProductSelection where = new ProductSelection();
@@ -161,9 +159,28 @@ public class CartActivity extends AppCompatActivity {
             holder.mImageView.setImageUrl(
                     tempProduct.getImages().get(0).getSrc(),
                     ImageLoaderHelper.getInstance(CartActivity.this).getImageLoader());
-
             //TODO Fix This
             //holder.mImageView.setAspectRatio((float) 0.8);
+
+            holder.mNumberPicker.setValue((int) mValues.get(position).getQuantity(), false);
+
+            holder.mNumberPicker.setOnValueChangeListener(new OnValueChangeListener() {
+                @Override
+                public boolean onValueChange(SwipeNumberPicker view, int oldValue, int newValue) {
+                    cartProducts.get(position).setQuantity(newValue);
+                    setItemPrice(holder.mPriceView, position);
+                    mTotalQuantityView.setText(getShopifyApplication().getCurrency() + " " + getTotal());
+                    return true;
+                }
+            });
+
+        }
+
+        private void setItemPrice(TextView mPriceView, int position) {
+            mPriceView.setText(
+                    getShopifyApplication().getCurrency() + " " +
+                            String.valueOf((float) (Float.valueOf(mValues.get(position).getPrice()) *
+                                    mValues.get(position).getQuantity())));
         }
 
         @Override
@@ -175,8 +192,8 @@ public class CartActivity extends AppCompatActivity {
             public final View mView;
             public final TextView mTitleView;
             public final TextView mPriceView;
-            public final TextView mQuantityView;
             public final DynamicHeightNetworkImageView mImageView;
+            public final SwipeNumberPicker mNumberPicker;
             public CartLineItem mItem;
 
             public ViewHolder(View view) {
@@ -184,8 +201,8 @@ public class CartActivity extends AppCompatActivity {
                 mView = view;
                 mTitleView = (TextView) view.findViewById(R.id.cart_item_title);
                 mPriceView = (TextView) view.findViewById(R.id.cart_item_price);
-                mQuantityView = (TextView) view.findViewById(R.id.cart_item_quantity);
                 mImageView = (DynamicHeightNetworkImageView) view.findViewById(R.id.imageView_cart_image);
+                mNumberPicker = (SwipeNumberPicker) view.findViewById(R.id.number_picker);
             }
         }
     }
