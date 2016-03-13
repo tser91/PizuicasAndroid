@@ -123,8 +123,8 @@ public class CartActivity extends AppCompatActivity {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
             holder.mTitleView.setText(mValues.get(position).getVariant().getProductTitle());
-            holder.mPriceView.setText(mValues.get(position).getPrice());
             holder.mPriceView.setText(
+                    getShopifyApplication().getCurrency() + " " +
                     String.valueOf((float) (Float.valueOf(mValues.get(position).getPrice()) *
                             mValues.get(position).getQuantity())));
             holder.mQuantityView.setText(String.valueOf(mValues.get(position).getQuantity()));
@@ -147,6 +147,7 @@ public class CartActivity extends AppCompatActivity {
             holder.mImageView.setImageUrl(
                     tempProduct.getImages().get(0).getSrc(),
                     ImageLoaderHelper.getInstance(CartActivity.this).getImageLoader());
+            //holder.mImageView.setAspectRatio((float) 0.8);
         }
 
         @Override

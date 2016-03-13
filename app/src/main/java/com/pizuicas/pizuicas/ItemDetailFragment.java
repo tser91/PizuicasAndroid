@@ -101,11 +101,14 @@ public class ItemDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        String itemDescription;
         View rootView = inflater.inflate(R.layout.item_detail, container, false);
 
         // Show the item content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.item_detail)).setText(mItem.getBodyHtml());
+            itemDescription = mItem.getBodyHtml();
+            itemDescription = itemDescription.replaceAll("<br>", "\n");
+            ((TextView) rootView.findViewById(R.id.item_detail)).setText(itemDescription);
         }
 
         return rootView;

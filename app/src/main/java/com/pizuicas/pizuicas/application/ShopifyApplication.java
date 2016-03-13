@@ -80,6 +80,10 @@ public class ShopifyApplication extends Application {
         cart = new Cart();
     }
 
+    public String getCurrency() {
+        return shop.getCurrency();
+    }
+
 
     public void getAllProducts(final Callback<List<Product>> callback) {
         // For this sample app, "all" products will just be the first page of products

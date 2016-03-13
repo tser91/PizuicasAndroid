@@ -283,7 +283,8 @@ public class ItemListActivity extends AppCompatActivity {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
             holder.mTitleView.setText(mValues.get(position).getTitle());
-            holder.mPriceView.setText(mValues.get(position).getVariants().get(0).getPrice());
+            holder.mPriceView.setText(getShopifyApplication().getCurrency() + " " +
+                    mValues.get(position).getVariants().get(0).getPrice());
             holder.mImageView.setImageUrl(
                     mValues.get(position).getImages().get(0).getSrc(),
                     ImageLoaderHelper.getInstance(ItemListActivity.this).getImageLoader());

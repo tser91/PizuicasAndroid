@@ -8,7 +8,10 @@
     <com.pizuicas.pizuicas.ui.DynamicHeightNetworkImageView
         android:id="@+id/imageView_cart_image"
         android:layout_width="@dimen/card_width"
-        android:layout_height="@dimen/card_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/list_side_margin"
+        android:layout_marginStart="@dimen/list_side_margin"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop" />
 
