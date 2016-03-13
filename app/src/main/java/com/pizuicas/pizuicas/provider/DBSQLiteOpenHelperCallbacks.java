@@ -5,6 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.pizuicas.pizuicas.BuildConfig;
+import com.pizuicas.pizuicas.provider.address.AddressColumns;
+import com.pizuicas.pizuicas.provider.client.ClientColumns;
+import com.pizuicas.pizuicas.provider.product.ProductColumns;
 
 /**
  * Implement your custom database creation or upgrade code here.
@@ -31,6 +34,10 @@ public class DBSQLiteOpenHelperCallbacks {
 
     public void onUpgrade(final Context context, final SQLiteDatabase db, final int oldVersion, final int newVersion) {
         if (BuildConfig.DEBUG) Log.d(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion);
-        // Insert your upgrading code here.
+        if(newVersion > oldVersion){
+            db.execSQL("DROP TABLE IF EXISTS " + AddressColumns.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + ClientColumns.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + ProductColumns.TABLE_NAME);
+        }
     }
 }

@@ -10,32 +10,18 @@ import com.pizuicas.pizuicas.provider.base.BaseModel;
 public interface ProductModel extends BaseModel {
 
     /**
-     * Get the {@code shopify_id} value.
+     * Get the {@code jsonobject} value.
      * Can be {@code null}.
      */
     @Nullable
-    String getShopifyId();
+    String getJsonobject();
 
     /**
-     * Get the {@code title} value.
+     * Get the {@code shopifyid} value.
      * Can be {@code null}.
      */
     @Nullable
-    String getTitle();
-
-    /**
-     * Get the {@code description} value.
-     * Can be {@code null}.
-     */
-    @Nullable
-    String getDescription();
-
-    /**
-     * Get the {@code price} value.
-     * Can be {@code null}.
-     */
-    @Nullable
-    Double getPrice();
+    String getShopifyid();
 
     /**
      * Get the {@code image} value.

@@ -28,7 +28,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_checkout"
-                android:hint="@string/reg_form_name" />
+                android:hint="@string/reg_form_name"
+                android:inputType="textPersonName" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -40,7 +41,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_checkout"
-                android:hint="@string/reg_form_last_name" />
+                android:hint="@string/reg_form_last_name"
+                android:inputType="textPersonName" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -52,7 +54,9 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_checkout"
-                android:hint="@string/reg_form_email" />
+                android:hint="@string/reg_form_email"
+
+                android:inputType="textEmailAddress" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -100,7 +104,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_checkout"
-                android:hint="@string/reg_form_zip" />
+                android:hint="@string/reg_form_zip"
+                android:inputType="textPostalAddress" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout

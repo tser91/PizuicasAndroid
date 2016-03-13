@@ -39,14 +39,12 @@ public class DBSQLiteOpenHelper extends SQLiteOpenHelper {
     public static final String SQL_CREATE_TABLE_PRODUCT = "CREATE TABLE IF NOT EXISTS "
             + ProductColumns.TABLE_NAME + " ( "
             + ProductColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + ProductColumns.SHOPIFY_ID + " TEXT, "
-            + ProductColumns.TITLE + " TEXT DEFAULT 'Item name not available', "
-            + ProductColumns.DESCRIPTION + " TEXT DEFAULT 'Item description not available', "
-            + ProductColumns.PRICE + " REAL DEFAULT 'Item price not available', "
+            + ProductColumns.JSONOBJECT + " TEXT, "
+            + ProductColumns.SHOPIFYID + " TEXT, "
             + ProductColumns.IMAGE + " BLOB "
             + " );";
     private static final String TAG = DBSQLiteOpenHelper.class.getSimpleName();
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
     private static DBSQLiteOpenHelper sInstance;
     private final Context mContext;
     private final DBSQLiteOpenHelperCallbacks mOpenHelperCallbacks;
@@ -137,5 +135,6 @@ public class DBSQLiteOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         mOpenHelperCallbacks.onUpgrade(mContext, db, oldVersion, newVersion);
+        onCreate(db);
     }
 }

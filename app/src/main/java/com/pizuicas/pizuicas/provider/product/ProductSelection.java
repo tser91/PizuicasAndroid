@@ -76,163 +76,83 @@ public class ProductSelection extends AbstractSelection<ProductSelection> {
         return orderById(false);
     }
 
-    public ProductSelection shopifyId(String... value) {
-        addEquals(ProductColumns.SHOPIFY_ID, value);
+    public ProductSelection jsonobject(String... value) {
+        addEquals(ProductColumns.JSONOBJECT, value);
         return this;
     }
 
-    public ProductSelection shopifyIdNot(String... value) {
-        addNotEquals(ProductColumns.SHOPIFY_ID, value);
+    public ProductSelection jsonobjectNot(String... value) {
+        addNotEquals(ProductColumns.JSONOBJECT, value);
         return this;
     }
 
-    public ProductSelection shopifyIdLike(String... value) {
-        addLike(ProductColumns.SHOPIFY_ID, value);
+    public ProductSelection jsonobjectLike(String... value) {
+        addLike(ProductColumns.JSONOBJECT, value);
         return this;
     }
 
-    public ProductSelection shopifyIdContains(String... value) {
-        addContains(ProductColumns.SHOPIFY_ID, value);
+    public ProductSelection jsonobjectContains(String... value) {
+        addContains(ProductColumns.JSONOBJECT, value);
         return this;
     }
 
-    public ProductSelection shopifyIdStartsWith(String... value) {
-        addStartsWith(ProductColumns.SHOPIFY_ID, value);
+    public ProductSelection jsonobjectStartsWith(String... value) {
+        addStartsWith(ProductColumns.JSONOBJECT, value);
         return this;
     }
 
-    public ProductSelection shopifyIdEndsWith(String... value) {
-        addEndsWith(ProductColumns.SHOPIFY_ID, value);
+    public ProductSelection jsonobjectEndsWith(String... value) {
+        addEndsWith(ProductColumns.JSONOBJECT, value);
         return this;
     }
 
-    public ProductSelection orderByShopifyId(boolean desc) {
-        orderBy(ProductColumns.SHOPIFY_ID, desc);
+    public ProductSelection orderByJsonobject(boolean desc) {
+        orderBy(ProductColumns.JSONOBJECT, desc);
         return this;
     }
 
-    public ProductSelection orderByShopifyId() {
-        orderBy(ProductColumns.SHOPIFY_ID, false);
+    public ProductSelection orderByJsonobject() {
+        orderBy(ProductColumns.JSONOBJECT, false);
         return this;
     }
 
-    public ProductSelection title(String... value) {
-        addEquals(ProductColumns.TITLE, value);
+    public ProductSelection shopifyid(String... value) {
+        addEquals(ProductColumns.SHOPIFYID, value);
         return this;
     }
 
-    public ProductSelection titleNot(String... value) {
-        addNotEquals(ProductColumns.TITLE, value);
+    public ProductSelection shopifyidNot(String... value) {
+        addNotEquals(ProductColumns.SHOPIFYID, value);
         return this;
     }
 
-    public ProductSelection titleLike(String... value) {
-        addLike(ProductColumns.TITLE, value);
+    public ProductSelection shopifyidLike(String... value) {
+        addLike(ProductColumns.SHOPIFYID, value);
         return this;
     }
 
-    public ProductSelection titleContains(String... value) {
-        addContains(ProductColumns.TITLE, value);
+    public ProductSelection shopifyidContains(String... value) {
+        addContains(ProductColumns.SHOPIFYID, value);
         return this;
     }
 
-    public ProductSelection titleStartsWith(String... value) {
-        addStartsWith(ProductColumns.TITLE, value);
+    public ProductSelection shopifyidStartsWith(String... value) {
+        addStartsWith(ProductColumns.SHOPIFYID, value);
         return this;
     }
 
-    public ProductSelection titleEndsWith(String... value) {
-        addEndsWith(ProductColumns.TITLE, value);
+    public ProductSelection shopifyidEndsWith(String... value) {
+        addEndsWith(ProductColumns.SHOPIFYID, value);
         return this;
     }
 
-    public ProductSelection orderByTitle(boolean desc) {
-        orderBy(ProductColumns.TITLE, desc);
+    public ProductSelection orderByShopifyid(boolean desc) {
+        orderBy(ProductColumns.SHOPIFYID, desc);
         return this;
     }
 
-    public ProductSelection orderByTitle() {
-        orderBy(ProductColumns.TITLE, false);
-        return this;
-    }
-
-    public ProductSelection description(String... value) {
-        addEquals(ProductColumns.DESCRIPTION, value);
-        return this;
-    }
-
-    public ProductSelection descriptionNot(String... value) {
-        addNotEquals(ProductColumns.DESCRIPTION, value);
-        return this;
-    }
-
-    public ProductSelection descriptionLike(String... value) {
-        addLike(ProductColumns.DESCRIPTION, value);
-        return this;
-    }
-
-    public ProductSelection descriptionContains(String... value) {
-        addContains(ProductColumns.DESCRIPTION, value);
-        return this;
-    }
-
-    public ProductSelection descriptionStartsWith(String... value) {
-        addStartsWith(ProductColumns.DESCRIPTION, value);
-        return this;
-    }
-
-    public ProductSelection descriptionEndsWith(String... value) {
-        addEndsWith(ProductColumns.DESCRIPTION, value);
-        return this;
-    }
-
-    public ProductSelection orderByDescription(boolean desc) {
-        orderBy(ProductColumns.DESCRIPTION, desc);
-        return this;
-    }
-
-    public ProductSelection orderByDescription() {
-        orderBy(ProductColumns.DESCRIPTION, false);
-        return this;
-    }
-
-    public ProductSelection price(Double... value) {
-        addEquals(ProductColumns.PRICE, value);
-        return this;
-    }
-
-    public ProductSelection priceNot(Double... value) {
-        addNotEquals(ProductColumns.PRICE, value);
-        return this;
-    }
-
-    public ProductSelection priceGt(double value) {
-        addGreaterThan(ProductColumns.PRICE, value);
-        return this;
-    }
-
-    public ProductSelection priceGtEq(double value) {
-        addGreaterThanOrEquals(ProductColumns.PRICE, value);
-        return this;
-    }
-
-    public ProductSelection priceLt(double value) {
-        addLessThan(ProductColumns.PRICE, value);
-        return this;
-    }
-
-    public ProductSelection priceLtEq(double value) {
-        addLessThanOrEquals(ProductColumns.PRICE, value);
-        return this;
-    }
-
-    public ProductSelection orderByPrice(boolean desc) {
-        orderBy(ProductColumns.PRICE, desc);
-        return this;
-    }
-
-    public ProductSelection orderByPrice() {
-        orderBy(ProductColumns.PRICE, false);
+    public ProductSelection orderByShopifyid() {
+        orderBy(ProductColumns.SHOPIFYID, false);
         return this;
     }
 

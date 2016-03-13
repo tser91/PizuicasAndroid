@@ -215,7 +215,7 @@ public class ItemListActivity extends AppCompatActivity {
                 @Override public void onPostExecute(Pair result)
                 {
                     ProductSelection where = new ProductSelection();
-                    where.shopifyId((String) result.first);
+                    where.shopifyid((String) result.first);
 
                     /* Resize Image */
                     byte[] imageBytes = (byte[])result.second;
@@ -236,15 +236,12 @@ public class ItemListActivity extends AppCompatActivity {
                     ProductContentValues productValues= new ProductContentValues();
                     productValues.putImage(finalArray);
                     productValues.update(getApplicationContext(), where);
-                    Log.d(TAG, "HEY HOY: " + result.second.toString());
                 }
             }.execute(tempProduct);
 
             productValues = new ProductContentValues();
-            productValues.putTitle(tempProduct.getTitle())
-                    .putDescription(tempProduct.getBodyHtml())
-                    .putShopifyId(tempProduct.getProductId())
-                    .putPrice(Double.valueOf(tempProduct.getVariants().get(0).getPrice()));
+            productValues.putJsonobject(tempProduct.toJsonString());
+            productValues.putShopifyid(tempProduct.getProductId());
             Uri uri = productValues.insert(getContentResolver());
             ContentUris.parseId(uri);
         }

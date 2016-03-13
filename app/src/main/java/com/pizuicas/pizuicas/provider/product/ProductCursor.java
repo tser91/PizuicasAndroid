@@ -24,42 +24,22 @@ public class ProductCursor extends AbstractCursor implements ProductModel {
     }
 
     /**
-     * Get the {@code shopify_id} value.
+     * Get the {@code jsonobject} value.
      * Can be {@code null}.
      */
     @Nullable
-    public String getShopifyId() {
-        String res = getStringOrNull(ProductColumns.SHOPIFY_ID);
+    public String getJsonobject() {
+        String res = getStringOrNull(ProductColumns.JSONOBJECT);
         return res;
     }
 
     /**
-     * Get the {@code title} value.
+     * Get the {@code shopifyid} value.
      * Can be {@code null}.
      */
     @Nullable
-    public String getTitle() {
-        String res = getStringOrNull(ProductColumns.TITLE);
-        return res;
-    }
-
-    /**
-     * Get the {@code description} value.
-     * Can be {@code null}.
-     */
-    @Nullable
-    public String getDescription() {
-        String res = getStringOrNull(ProductColumns.DESCRIPTION);
-        return res;
-    }
-
-    /**
-     * Get the {@code price} value.
-     * Can be {@code null}.
-     */
-    @Nullable
-    public Double getPrice() {
-        Double res = getDoubleOrNull(ProductColumns.PRICE);
+    public String getShopifyid() {
+        String res = getStringOrNull(ProductColumns.SHOPIFYID);
         return res;
     }
 

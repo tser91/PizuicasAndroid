@@ -29,50 +29,29 @@ public class ProductContentValues extends AbstractContentValues {
     /**
      * Update row(s) using the values stored by this object and the given selection.
      *
-     * @param context The content resolver to use.
      * @param where The selection to use (can be {@code null}).
      */
     public int update(Context context, @Nullable ProductSelection where) {
         return context.getContentResolver().update(uri(), values(), where == null ? null : where.sel(), where == null ? null : where.args());
     }
 
-    public ProductContentValues putShopifyId(@Nullable String value) {
-        mContentValues.put(ProductColumns.SHOPIFY_ID, value);
+    public ProductContentValues putJsonobject(@Nullable String value) {
+        mContentValues.put(ProductColumns.JSONOBJECT, value);
         return this;
     }
 
-    public ProductContentValues putShopifyIdNull() {
-        mContentValues.putNull(ProductColumns.SHOPIFY_ID);
+    public ProductContentValues putJsonobjectNull() {
+        mContentValues.putNull(ProductColumns.JSONOBJECT);
         return this;
     }
 
-    public ProductContentValues putTitle(@Nullable String value) {
-        mContentValues.put(ProductColumns.TITLE, value);
+    public ProductContentValues putShopifyid(@Nullable String value) {
+        mContentValues.put(ProductColumns.SHOPIFYID, value);
         return this;
     }
 
-    public ProductContentValues putTitleNull() {
-        mContentValues.putNull(ProductColumns.TITLE);
-        return this;
-    }
-
-    public ProductContentValues putDescription(@Nullable String value) {
-        mContentValues.put(ProductColumns.DESCRIPTION, value);
-        return this;
-    }
-
-    public ProductContentValues putDescriptionNull() {
-        mContentValues.putNull(ProductColumns.DESCRIPTION);
-        return this;
-    }
-
-    public ProductContentValues putPrice(@Nullable Double value) {
-        mContentValues.put(ProductColumns.PRICE, value);
-        return this;
-    }
-
-    public ProductContentValues putPriceNull() {
-        mContentValues.putNull(ProductColumns.PRICE);
+    public ProductContentValues putShopifyidNull() {
+        mContentValues.putNull(ProductColumns.SHOPIFYID);
         return this;
     }
 

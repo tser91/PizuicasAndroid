@@ -4,24 +4,46 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
+    <!--suppress AndroidLintContentDescription-->
+    <com.pizuicas.pizuicas.ui.DynamicHeightNetworkImageView
+        android:id="@+id/imageView_cart_image"
+        android:layout_width="@dimen/card_width"
+        android:layout_height="@dimen/card_width"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
     <TextView
-        android:id="@+id/id"
+        android:id="@+id/cart_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/theme_primary"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/cart_item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textColor="@color/theme_accent"
+        android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/cart_item_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem" />
 
-    <TextView
-        android:id="@+id/content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
 
-    <TextView
-        android:id="@+id/price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+
 </LinearLayout>
