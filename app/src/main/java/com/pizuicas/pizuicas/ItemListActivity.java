@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -53,12 +55,15 @@ public class ItemListActivity extends AppCompatActivity {
 
     private final String TAG = ItemListActivity.class.getName();
     private final String PRODUCT_LIST_KEY = "PRODUCT_LIST_KEY";
+    private final String PRODUCT_CLICKED = "PRODUCT_CLICKED";
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
     private boolean mTwoPane;
+
+    private Product productClickedTwoPane;
 
     private List<Product> productsToShow;
 
@@ -75,6 +80,8 @@ public class ItemListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
+
+        mTwoPane = false;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -93,6 +100,7 @@ public class ItemListActivity extends AppCompatActivity {
             for (int i = 0; i < savedProductList.size(); i++) {
                 productsToShow.add(Product.fromJson(savedProductList.get(i)));
             }
+            productClickedTwoPane = Product.fromJson(savedInstanceState.getString(PRODUCT_CLICKED));
             ((RecyclerView) recyclerView).setAdapter(new SimpleItemRecyclerViewAdapter(productsToShow));
         }
         else {
@@ -104,6 +112,7 @@ public class ItemListActivity extends AppCompatActivity {
                 new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
         ((RecyclerView) recyclerView).setLayoutManager(sglm);
 
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_list_add);
         if (findViewById(R.id.card_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
@@ -111,6 +120,29 @@ public class ItemListActivity extends AppCompatActivity {
             // activity should be in two-pane mode.
             Log.d(TAG, "onCreate: MTWOPANE");
             mTwoPane = true;
+
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d(TAG, "onClick: Add to cart");
+                    if (productClickedTwoPane != null) {
+                        getShopifyApplication().addProductToCart(productClickedTwoPane);
+                        Snackbar.make(view, getResources().getString(R.string.product_to_cart), Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        mTracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("Action")
+                                .setAction("AddCart")
+                                .build());
+                    }
+                    else {
+                        Snackbar.make(view, getResources().getString(R.string.no_product_selected), Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                }
+            });
+        }
+        else {
+            fab.setVisibility(View.GONE);
         }
 
         // [START shared_tracker]
@@ -146,6 +178,7 @@ public class ItemListActivity extends AppCompatActivity {
             listProducts.add(productsToShow.get(index).toJsonString());
         }
         outState.putStringArrayList(PRODUCT_LIST_KEY, listProducts);
+        outState.putString(PRODUCT_CLICKED, productClickedTwoPane.toJsonString());
     }
 
     private void gotoCart() {
@@ -298,6 +331,8 @@ public class ItemListActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (mTwoPane) {
+                        productClickedTwoPane = holder.mItem;
+
                         Bundle arguments = new Bundle();
                         arguments.putString(
                                 ItemDetailFragment.ARG_ITEM_ID, holder.mItem.toJsonString());

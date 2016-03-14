@@ -50,6 +50,8 @@
     <string name="checkout_complete">Checkout complete!</string>
     <string name="checkout_error">Could not complete checkout</string>
 
+    <string name="no_product_selected">You need to select a product</string>
+
     <string name="line_item_price">Line Item Price</string>
     <string name="discount">Discount</string>
     <string name="gift_card">Gift Card</string>
