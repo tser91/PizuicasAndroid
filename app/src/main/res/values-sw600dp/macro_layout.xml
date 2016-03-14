@@ -8,4 +8,7 @@
     <dimen name="detail_body_bottom_margin">96dp</dimen>
     <integer name="list_column_count">3</integer>
 
+    <dimen name="detail_card_max_width">450dp</dimen>
+
+
 </resources>

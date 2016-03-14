@@ -9,43 +9,45 @@
     tools:context="com.pizuicas.pizuicas.CartActivity"
     tools:showIn="@layout/activity_cart">
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include layout="@layout/item_list" />
-
-        <LinearLayout
-            android:id="@+id/action_bar_total_cart"
+        <FrameLayout
+            android:id="@+id/frameLayout"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="left|bottom"
-            android:background="@color/colorPrimary"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <TextView
-                android:id="@+id/textView_cart_total_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical"
-                android:layout_margin="@dimen/text_margin"
-                android:text="@string/total"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@android:color/white" />
+            <include layout="@layout/item_list" />
 
-            <TextView
-                android:id="@+id/textView_cart_total_quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/text_margin"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@android:color/white" />
+            <LinearLayout
+                android:id="@+id/action_bar_total_cart"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="left|bottom"
+                android:background="@color/colorPrimary"
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/textView_cart_total_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:layout_margin="@dimen/text_margin"
+                    android:text="@string/total"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@android:color/white" />
 
-    </FrameLayout>
+                <TextView
+                    android:id="@+id/textView_cart_total_quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/text_margin"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@android:color/white" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
 
 </RelativeLayout>

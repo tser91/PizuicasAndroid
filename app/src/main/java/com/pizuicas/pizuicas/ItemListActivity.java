@@ -178,7 +178,9 @@ public class ItemListActivity extends AppCompatActivity {
             listProducts.add(productsToShow.get(index).toJsonString());
         }
         outState.putStringArrayList(PRODUCT_LIST_KEY, listProducts);
-        outState.putString(PRODUCT_CLICKED, productClickedTwoPane.toJsonString());
+        if (productClickedTwoPane != null) {
+            outState.putString(PRODUCT_CLICKED, productClickedTwoPane.toJsonString());
+        }
     }
 
     private void gotoCart() {

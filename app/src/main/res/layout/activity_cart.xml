@@ -21,7 +21,20 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_cart" />
+    <com.pizuicas.pizuicas.ui.MaxWidthLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:background="@android:color/white"
+        android:elevation="2dp"
+        android:gravity="center_horizontal"
+        android:maxWidth="@dimen/detail_card_max_width"
+        android:orientation="vertical">
+
+        <include layout="@layout/content_cart" />
+
+    </com.pizuicas.pizuicas.ui.MaxWidthLinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
