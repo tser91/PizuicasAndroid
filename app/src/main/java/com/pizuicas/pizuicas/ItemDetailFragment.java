@@ -23,7 +23,7 @@ import com.shopify.buy.model.Product;
  * in two-pane mode (on tablets) or a {@link ItemDetailActivity}
  * on handsets.
  */
-public class ItemDetailFragment extends Fragment {
+public class ItemDetailFragment extends Fragment{
 
     /**
      * The fragment argument representing the item ID that this fragment
@@ -32,6 +32,7 @@ public class ItemDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
     public static final String KEY_ITEM_JSON = "KEY_ITEM_JSON";
     private final String TAG = ItemDetailFragment.class.getName();
+
     /**
      * The {@link Tracker} used to record screen views.
      */
@@ -55,6 +56,7 @@ public class ItemDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             Log.d(TAG, "onCreate: arg item key is: " + getArguments().getString(ARG_ITEM_ID));
 
@@ -66,6 +68,8 @@ public class ItemDetailFragment extends Fragment {
             if (appBarLayout != null) {
                 appBarLayout.setTitle(mItem.getTitle());
             }
+
+
         }
 
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);

@@ -14,6 +14,7 @@ import com.shopify.buy.model.Cart;
 import com.shopify.buy.model.CartLineItem;
 import com.shopify.buy.model.Checkout;
 import com.shopify.buy.model.Product;
+import com.shopify.buy.model.ProductVariant;
 import com.shopify.buy.model.Shop;
 
 import java.util.List;
@@ -130,6 +131,14 @@ public class ShopifyApplication extends Application {
 
     public void getCheckoutCompletionStatus(final Callback<Boolean> callback) {
         buyClient.getCheckoutCompletionStatus(checkout, callback);
+    }
+
+    public void setProductQuantityCart(ProductVariant variant, int quantity) {
+        cart.setVariantQuantity(variant, quantity);
+    }
+
+    public void removeProductFromCart(ProductVariant variant) {
+        setProductQuantityCart(variant, 0);
     }
 
     /**

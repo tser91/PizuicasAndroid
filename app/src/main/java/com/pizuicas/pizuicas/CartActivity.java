@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
@@ -33,6 +35,8 @@ import java.util.List;
 public class CartActivity extends AppCompatActivity {
 
     public TextView mTotalQuantityView;
+    private int appBarHeight;
+
     /**
      * The {@link Tracker} used to record screen views.
      */
@@ -46,17 +50,21 @@ public class CartActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final FloatingActionButton fab;
+        View recyclerView;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.cart));
         setSupportActionBar(toolbar);
 
-        View recyclerView = findViewById(R.id.item_list);
+        recyclerView = findViewById(R.id.item_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,6 +79,35 @@ public class CartActivity extends AppCompatActivity {
         mTotalQuantityView = (TextView) findViewById(R.id.textView_cart_total_quantity);
         mTotalQuantityView.setText(getShopifyApplication().getCurrency() + " " + getTotal());
 
+        fab.post(new Runnable()
+        {
+            public void run()
+            {
+                appBarHeight = (int) (getResources().getDimension(R.dimen.fab_margin)*2 +
+                        fab.getHeight());
+
+                View contentLayout = findViewById(R.id.content_cart_root ); // root View id from that link
+
+                LinearLayout linearLayout = (LinearLayout) contentLayout.findViewById(R.id.action_bar_total_cart);
+
+                // Gets the layout params that will allow you to resize the layout
+                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) linearLayout.getLayoutParams();
+                // Changes the height and width to the specified *pixels*
+                params.height = appBarHeight;
+                linearLayout.setLayoutParams(params);
+
+                RecyclerView recyclerView = (RecyclerView) findViewById(R.id.item_list);
+                ViewGroup.MarginLayoutParams recycParams = (ViewGroup.MarginLayoutParams) recyclerView.getLayoutParams();
+                recycParams.bottomMargin = appBarHeight;
+                recyclerView.setLayoutParams(recycParams);
+            }
+        });
+
+
+
+
+
+
         // [START shared_tracker]
         // Obtain the shared Tracker instance.
         mTracker = getShopifyApplication().getDefaultTracker();
@@ -82,8 +119,6 @@ public class CartActivity extends AppCompatActivity {
      *
      */
     private void gotoCheckout() {
-        //showLoadingDialog(R.string.syncing_data);
-
         Intent intent = new Intent(getApplicationContext(), CheckoutInformationActivity.class);
         startActivity(intent);
     }
@@ -168,12 +203,30 @@ public class CartActivity extends AppCompatActivity {
                 @Override
                 public boolean onValueChange(SwipeNumberPicker view, int oldValue, int newValue) {
                     cartProducts.get(position).setQuantity(newValue);
+                    getShopifyApplication().setProductQuantityCart(
+                            mValues.get(position).getVariant(), newValue);
                     setItemPrice(holder.mPriceView, position);
-                    mTotalQuantityView.setText(getShopifyApplication().getCurrency() + " " + getTotal());
+                    setTotalItemPrice();
                     return true;
                 }
             });
 
+            holder.mDeleteView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getShopifyApplication().removeProductFromCart(
+                            mValues.get(position).getVariant());
+                    setTotalItemPrice();
+                    notifyDataSetChanged();
+                    Log.d(TAG, "onClick: removed position " + position);
+                }
+            });
+
+        }
+
+        private void setTotalItemPrice() {
+            mTotalQuantityView.setText(
+                    getShopifyApplication().getCurrency() + " " + getTotal());
         }
 
         private void setItemPrice(TextView mPriceView, int position) {
@@ -192,6 +245,7 @@ public class CartActivity extends AppCompatActivity {
             public final View mView;
             public final TextView mTitleView;
             public final TextView mPriceView;
+            public final TextView mDeleteView;
             public final DynamicHeightNetworkImageView mImageView;
             public final SwipeNumberPicker mNumberPicker;
             public CartLineItem mItem;
@@ -203,6 +257,7 @@ public class CartActivity extends AppCompatActivity {
                 mPriceView = (TextView) view.findViewById(R.id.cart_item_price);
                 mImageView = (DynamicHeightNetworkImageView) view.findViewById(R.id.imageView_cart_image);
                 mNumberPicker = (SwipeNumberPicker) view.findViewById(R.id.number_picker);
+                mDeleteView = (TextView) view.findViewById(R.id.cart_item_delete);
             }
         }
     }
