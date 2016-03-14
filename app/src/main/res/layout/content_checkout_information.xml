@@ -28,6 +28,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_checkout"
+                android:drawableStart="@drawable/ic_checkout"
                 android:hint="@string/reg_form_name"
                 android:inputType="textPersonName" />
         </android.support.design.widget.TextInputLayout>
@@ -41,6 +42,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_checkout"
+                android:drawableStart="@drawable/ic_checkout"
                 android:hint="@string/reg_form_last_name"
                 android:inputType="textPersonName" />
         </android.support.design.widget.TextInputLayout>
@@ -54,6 +56,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_checkout"
+                android:drawableStart="@drawable/ic_checkout"
                 android:hint="@string/reg_form_email"
 
                 android:inputType="textEmailAddress" />
@@ -68,6 +71,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_checkout"
+                android:drawableStart="@drawable/ic_checkout"
                 android:hint="@string/reg_form_address" />
         </android.support.design.widget.TextInputLayout>
 
@@ -80,6 +84,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_checkout"
+                android:drawableStart="@drawable/ic_checkout"
                 android:hint="@string/reg_form_city" />
         </android.support.design.widget.TextInputLayout>
 
@@ -92,6 +97,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_checkout"
+                android:drawableStart="@drawable/ic_checkout"
                 android:hint="@string/reg_form_province" />
         </android.support.design.widget.TextInputLayout>
 
@@ -104,6 +110,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_checkout"
+                android:drawableStart="@drawable/ic_checkout"
                 android:hint="@string/reg_form_zip"
                 android:inputType="textPostalAddress" />
         </android.support.design.widget.TextInputLayout>
@@ -117,6 +124,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_checkout"
+                android:drawableStart="@drawable/ic_checkout"
                 android:hint="@string/reg_form_country_code" />
         </android.support.design.widget.TextInputLayout>
 

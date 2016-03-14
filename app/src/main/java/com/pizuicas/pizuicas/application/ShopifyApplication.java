@@ -82,7 +82,12 @@ public class ShopifyApplication extends Application {
     }
 
     public String getCurrency() {
-        return shop.getCurrency();
+        if (shop != null) {
+            return shop.getCurrency();
+        }
+        else {
+            return getResources().getString(R.string.default_currency);
+        }
     }
 
 

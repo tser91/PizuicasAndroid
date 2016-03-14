@@ -293,7 +293,6 @@ public class ItemListActivity extends AppCompatActivity {
             //TODO FIX THIS
             // holder.mImageView.setAspectRatio(ratio);
 
-            Log.d(TAG, "onBindViewHolder: mtowpane is "+ mTwoPane);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override

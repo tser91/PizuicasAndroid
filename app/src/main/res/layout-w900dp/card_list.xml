@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginEnd="@dimen/spacing_16dp"
+    android:layout_marginLeft="@dimen/spacing_16dp"
+    android:layout_marginRight="@dimen/spacing_16dp"
+    android:layout_marginStart="@dimen/spacing_16dp"
     android:baselineAligned="false"
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
@@ -22,10 +24,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_list"
     android:name="com.pizuicas.pizuicas.ItemListFragment"
-    android:layout_width="match_parent"
+    android:layout_width="@dimen/item_width"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginEnd="@dimen/spacing_16dp"
+    android:layout_marginLeft="@dimen/spacing_16dp"
+    android:layout_marginRight="@dimen/spacing_16dp"
+    android:layout_marginStart="@dimen/spacing_16dp"
+    android:layout_weight="1"
     app:layoutManager="LinearLayoutManager"
     tools:context="com.pizuicas.pizuicas.ItemListActivity"
     tools:listitem="@layout/card_list_content" />
@@ -34,6 +39,6 @@
     android:id="@+id/card_detail_container"
     android:layout_width="0dp"
     android:layout_height="match_parent"
-    android:layout_weight="3" />
+    android:layout_weight="2" />
 
 </LinearLayout>

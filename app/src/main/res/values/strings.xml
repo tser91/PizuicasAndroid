@@ -89,7 +89,9 @@
     <string name="err_msg_zip">Enter your zip code</string>
     <string name="err_msg_country">Enter your country code</string>
 
+    <!-- Custom values -->
     <string name="costa_rica_code">CR</string>
+    <string name="default_currency">CRC</string>
 
 
 </resources>
