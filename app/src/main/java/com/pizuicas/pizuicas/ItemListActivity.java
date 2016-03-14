@@ -93,15 +93,18 @@ public class ItemListActivity extends AppCompatActivity {
         View recyclerView = findViewById(R.id.card_list);
         assert recyclerView != null;
 
-        if (savedInstanceState != null
-                && savedInstanceState.get(PRODUCT_LIST_KEY) != null) {
-            ArrayList<String> savedProductList =
-                    (ArrayList<String>) savedInstanceState.get(PRODUCT_LIST_KEY);
-            for (int i = 0; i < savedProductList.size(); i++) {
-                productsToShow.add(Product.fromJson(savedProductList.get(i)));
-            }
-            productClickedTwoPane = Product.fromJson(savedInstanceState.getString(PRODUCT_CLICKED));
-            ((RecyclerView) recyclerView).setAdapter(new SimpleItemRecyclerViewAdapter(productsToShow));
+        if (savedInstanceState != null && savedInstanceState.get(PRODUCT_LIST_KEY) != null) {
+                ArrayList<String> savedProductList =
+                        (ArrayList<String>) savedInstanceState.get(PRODUCT_LIST_KEY);
+                for (int i = 0; i < savedProductList.size(); i++) {
+                    Log.d(TAG, "onCreate: " + Product.fromJson(savedProductList.get(i)).getTitle());
+                    productsToShow.add(Product.fromJson(savedProductList.get(i)));
+                    ((RecyclerView) recyclerView).setAdapter(new SimpleItemRecyclerViewAdapter(productsToShow));
+                }
+
+                if (savedInstanceState.get(PRODUCT_CLICKED) != null) {
+                    productClickedTwoPane = Product.fromJson(savedInstanceState.getString(PRODUCT_CLICKED));
+                }
         }
         else {
             setupRecyclerView((RecyclerView) recyclerView);
