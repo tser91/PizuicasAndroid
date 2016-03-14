@@ -109,6 +109,7 @@ public class ItemListActivity extends AppCompatActivity {
             // large-screen layouts (res/values-w900dp).
             // If this view is present, then the
             // activity should be in two-pane mode.
+            Log.d(TAG, "onCreate: MTWOPANE");
             mTwoPane = true;
         }
 
@@ -292,6 +293,8 @@ public class ItemListActivity extends AppCompatActivity {
             //TODO FIX THIS
             // holder.mImageView.setAspectRatio(ratio);
 
+            Log.d(TAG, "onBindViewHolder: mtowpane is "+ mTwoPane);
+
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -302,7 +305,7 @@ public class ItemListActivity extends AppCompatActivity {
                         ItemDetailFragment fragment = new ItemDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.item_detail_container, fragment)
+                                .replace(R.id.card_detail_container, fragment)
                                 .commit();
                     } else {
                         Context context = v.getContext();

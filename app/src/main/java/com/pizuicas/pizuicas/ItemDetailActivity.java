@@ -2,10 +2,20 @@ package com.pizuicas.pizuicas;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.pizuicas.pizuicas.application.ShopifyApplication;
+import com.shopify.buy.model.Product;
 
 /**
  * An activity representing a single Item detail screen. This
@@ -15,6 +25,19 @@ import android.view.MenuItem;
  */
 public class ItemDetailActivity extends AppCompatActivity {
 
+    private final String TAG = ItemDetailFragment.class.getName();
+
+    /**
+     * The {@link Tracker} used to record screen views.
+     */
+    private Tracker mTracker;
+
+    private Product mItem;
+
+    protected ShopifyApplication getShopifyApplication() {
+        return (ShopifyApplication) getApplication();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,11 +45,35 @@ public class ItemDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
+        mItem = Product.fromJson(getIntent().getStringExtra(ItemDetailFragment.ARG_ITEM_ID));
+
+        CollapsingToolbarLayout appBarLayout =
+                (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        if (appBarLayout != null) {
+            appBarLayout.setTitle(mItem.getTitle());
+        }
+
+
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_detail);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: Add to cart");
+                getShopifyApplication().addProductToCart(mItem);
+                Snackbar.make(view, getResources().getString(R.string.product_to_cart), Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Action")
+                        .setAction("AddCart")
+                        .build());
+            }
+        });
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
@@ -46,9 +93,15 @@ public class ItemDetailActivity extends AppCompatActivity {
             ItemDetailFragment fragment = new ItemDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.item_detail_container, fragment)
+                    .add(R.id.card_detail_container, fragment)
                     .commit();
         }
+
+
+        // [START shared_tracker]
+        // Obtain the shared Tracker instance.
+        mTracker = getShopifyApplication().getDefaultTracker();
+        // [END shared_tracker]
     }
 
     @Override

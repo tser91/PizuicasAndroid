@@ -3,14 +3,12 @@ package com.pizuicas.pizuicas;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -71,20 +69,6 @@ public class ItemDetailFragment extends Fragment{
 
 
         }
-
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: Add to cart");
-                getShopifyApplication().addProductToCart(mItem);
-                Toast.makeText(getContext(), getResources().getString(R.string.product_to_cart), Toast.LENGTH_SHORT).show();
-                mTracker.send(new HitBuilders.EventBuilder()
-                        .setCategory("Action")
-                        .setAction("AddCart")
-                        .build());
-            }
-        });
 
         // [START shared_tracker]
         // Obtain the shared Tracker instance.
