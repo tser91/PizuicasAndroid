@@ -15,6 +15,8 @@ import android.view.View;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.pizuicas.pizuicas.application.ShopifyApplication;
+import com.pizuicas.pizuicas.ui.DynamicHeightNetworkImageView;
+import com.pizuicas.pizuicas.ui.ImageLoaderHelper;
 import com.shopify.buy.model.Product;
 
 /**
@@ -53,6 +55,10 @@ public class ItemDetailActivity extends AppCompatActivity {
             appBarLayout.setTitle(mItem.getTitle());
         }
 
+        DynamicHeightNetworkImageView imageView = (DynamicHeightNetworkImageView) findViewById(R.id.detail_image);
+        imageView.setImageUrl(mItem.getImages().get(0).getSrc(),
+                ImageLoaderHelper.getInstance(ItemDetailActivity.this).getImageLoader());
+
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
@@ -74,6 +80,8 @@ public class ItemDetailActivity extends AppCompatActivity {
                         .build());
             }
         });
+
+
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
