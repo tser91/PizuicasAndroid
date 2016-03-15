@@ -94,6 +94,8 @@
     <!-- Custom values -->
     <string name="costa_rica_code">CR</string>
     <string name="default_currency">CRC</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 
 
 </resources>

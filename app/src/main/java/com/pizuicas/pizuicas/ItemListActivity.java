@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.pizuicas.pizuicas.application.ShopifyApplication;
+import com.pizuicas.pizuicas.provider.product.ProductColumns;
 import com.pizuicas.pizuicas.provider.product.ProductContentValues;
 import com.pizuicas.pizuicas.provider.product.ProductSelection;
 import com.pizuicas.pizuicas.ui.DynamicHeightNetworkImageView;
@@ -274,7 +275,8 @@ public class ItemListActivity extends AppCompatActivity {
 
                     ProductContentValues productValues= new ProductContentValues();
                     productValues.putImage(finalArray);
-                    productValues.update(getApplicationContext(), where);
+                    getApplication().getContentResolver().update(ProductColumns.CONTENT_URI,
+                            productValues.values(), where.sel(), where.args());
                 }
             }.execute(tempProduct);
 
