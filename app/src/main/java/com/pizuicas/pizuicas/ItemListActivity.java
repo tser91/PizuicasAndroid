@@ -1,5 +1,6 @@
 package com.pizuicas.pizuicas;
 
+import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -68,6 +70,8 @@ public class ItemListActivity extends AppCompatActivity {
 
     private List<Product> productsToShow;
 
+    private Activity mContext;
+
     /**
      * The {@link Tracker} used to record screen views.
      */
@@ -81,6 +85,8 @@ public class ItemListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
+
+        mContext = this;
 
         mTwoPane = false;
 
@@ -238,7 +244,7 @@ public class ItemListActivity extends AppCompatActivity {
         //progressDialog.dismiss();
         Log.e(TAG, "Error: " + errorMessage);
         Toast.makeText(this, R.string.error, Toast.LENGTH_LONG).show();
-        finish();
+        supportFinishAfterTransition();;
     }
 
     private void onFetchedProducts(List<Product> products, RecyclerView recyclerView) throws MalformedURLException {
@@ -353,7 +359,11 @@ public class ItemListActivity extends AppCompatActivity {
                         Intent intent = new Intent(context, ItemDetailActivity.class);
                         intent.putExtra(
                                 ItemDetailFragment.ARG_ITEM_ID, holder.mItem.toJsonString());
-                        context.startActivity(intent);
+                        ActivityOptionsCompat options = ActivityOptionsCompat.
+                                makeSceneTransitionAnimation(mContext,
+                                        (View)holder.mImageView,
+                                        getResources().getString(R.string.image_transition));
+                        startActivity(intent, options.toBundle());
                     }
                 }
             });
