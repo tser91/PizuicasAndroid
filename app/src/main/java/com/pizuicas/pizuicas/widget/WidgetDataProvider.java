@@ -57,13 +57,17 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
         Log.d(TAG, "getViewAt: " + position + " " + product.getTitle());
 
         views.setTextViewText(R.id.widget_item_title, product.getTitle());
+        views.setContentDescription(R.id.widget_item_title, product.getTitle());
+
         views.setTextViewText(R.id.widget_item_price, product.getVariants().get(0).getPrice());
+        views.setContentDescription(R.id.widget_item_price, product.getVariants().get(0).getPrice());
 
         String itemDescription;
         itemDescription = product.getBodyHtml();
         itemDescription = itemDescription.replaceAll("<br>", "\n");
 
         views.setTextViewText(R.id.widget_item_description, itemDescription);
+        views.setContentDescription(R.id.widget_item_description, itemDescription);
 
 
         return views;

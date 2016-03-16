@@ -173,7 +173,11 @@ public class CartActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.mItem = mValues.get(position);
-            holder.mTitleView.setText(mValues.get(position).getVariant().getProductTitle());
+
+            String itemTitle = mValues.get(position).getVariant().getProductTitle();
+            holder.mTitleView.setText(itemTitle);
+            holder.mTitleView.setContentDescription(itemTitle);
+
             setItemPrice(holder.mPriceView, position);
 
             String[] projection = { ProductColumns.JSONOBJECT};
@@ -198,6 +202,7 @@ public class CartActivity extends AppCompatActivity {
             //holder.mImageView.setAspectRatio((float) 0.8);
 
             holder.mNumberPicker.setValue((int) mValues.get(position).getQuantity(), false);
+            holder.mNumberPicker.setContentDescription(String.valueOf(mValues.get(position).getQuantity()));
 
             holder.mNumberPicker.setOnValueChangeListener(new OnValueChangeListener() {
                 @Override
@@ -206,6 +211,8 @@ public class CartActivity extends AppCompatActivity {
                     getShopifyApplication().setProductQuantityCart(
                             mValues.get(position).getVariant(), newValue);
                     setItemPrice(holder.mPriceView, position);
+                    holder.mNumberPicker.setContentDescription(
+                            String.valueOf(newValue));
                     setTotalItemPrice();
                     return true;
                 }
@@ -222,18 +229,21 @@ public class CartActivity extends AppCompatActivity {
                 }
             });
 
+
         }
 
         private void setTotalItemPrice() {
-            mTotalQuantityView.setText(
-                    getShopifyApplication().getCurrency() + " " + getTotal());
+            String totalPrice = getShopifyApplication().getCurrency() + " " + getTotal();
+            mTotalQuantityView.setText(totalPrice);
+            mTotalQuantityView.setContentDescription(totalPrice);
         }
 
         private void setItemPrice(TextView mPriceView, int position) {
-            mPriceView.setText(
-                    getShopifyApplication().getCurrency() + " " +
-                            String.valueOf((float) (Float.valueOf(mValues.get(position).getPrice()) *
-                                    mValues.get(position).getQuantity())));
+            String price = getShopifyApplication().getCurrency() + " " +
+                    String.valueOf((float) (Float.valueOf(mValues.get(position).getPrice()) *
+                            mValues.get(position).getQuantity()));
+            mPriceView.setText(price);
+            mPriceView.setContentDescription(price);
         }
 
         @Override

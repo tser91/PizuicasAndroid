@@ -361,12 +361,28 @@ public class ItemListActivity extends AppCompatActivity {
                                 ItemDetailFragment.ARG_ITEM_ID, holder.mItem.toJsonString());
                         ActivityOptionsCompat options = ActivityOptionsCompat.
                                 makeSceneTransitionAnimation(mContext,
-                                        (View)holder.mImageView,
+                                        (View) holder.mImageView,
                                         getResources().getString(R.string.image_transition));
                         startActivity(intent, options.toBundle());
                     }
                 }
             });
+
+            /**
+             * Set content description for each card with its information.
+             */
+            String contentDescription =
+                    mValues.get(position).getTitle() +
+                            " " +
+                            getResources().getString(R.string.line_item_price) +
+                            " is " +
+                            getShopifyApplication().getCurrency() +
+                            " " +
+                            mValues.get(position).getVariants().get(0).getPrice() +
+                            " " +
+                            mValues.get(position).getBodyHtml();
+
+            holder.mView.setContentDescription(contentDescription);
         }
 
         @Override

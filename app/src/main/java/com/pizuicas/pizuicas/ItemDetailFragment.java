@@ -96,7 +96,9 @@ public class ItemDetailFragment extends Fragment{
         if (mItem != null) {
             itemDescription = mItem.getBodyHtml();
             itemDescription = itemDescription.replaceAll("<br>", "\n");
-            ((TextView) rootView.findViewById(R.id.item_detail)).setText(itemDescription);
+            TextView descriptionView = (TextView) rootView.findViewById(R.id.item_detail);
+            descriptionView.setText(itemDescription);
+            descriptionView.setContentDescription(itemDescription);
         }
 
         return rootView;

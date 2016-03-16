@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Pizuicas</string>
     <string name="title_item_detail">Item Detail</string>
+    <string name="title_item_list">Items List</string>
+
+    <string name="welcome">Welcome to Pizuicas</string>
 
     <string name="shop_url">pizuicas.myshopify.com</string>
     <string name="shopify_api_key">fdb3d8fa24da5f0ea3f2870afa61e1f1</string>
