@@ -54,11 +54,9 @@
         android:id="@+id/fab_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|start"
+        android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:contentDescription="@string/product_to_cart"
-        android:src="@drawable/ic_add_cart"
-        app:layout_anchor="@+id/card_detail_container"
-        app:layout_anchorGravity="top|end" />
+        android:src="@drawable/ic_add_cart" />
 
 </android.support.design.widget.CoordinatorLayout>

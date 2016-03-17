@@ -101,17 +101,17 @@ public class ItemListActivity extends AppCompatActivity {
         assert recyclerView != null;
 
         if (savedInstanceState != null && savedInstanceState.get(PRODUCT_LIST_KEY) != null) {
-                ArrayList<String> savedProductList =
-                        (ArrayList<String>) savedInstanceState.get(PRODUCT_LIST_KEY);
-                for (int i = 0; i < savedProductList.size(); i++) {
-                    Log.d(TAG, "onCreate: " + Product.fromJson(savedProductList.get(i)).getTitle());
-                    productsToShow.add(Product.fromJson(savedProductList.get(i)));
-                    ((RecyclerView) recyclerView).setAdapter(new SimpleItemRecyclerViewAdapter(productsToShow));
-                }
+            ArrayList<String> savedProductList =
+                    (ArrayList<String>) savedInstanceState.get(PRODUCT_LIST_KEY);
+            for (int i = 0; i < savedProductList.size(); i++) {
+                Log.d(TAG, "onCreate: " + Product.fromJson(savedProductList.get(i)).getTitle());
+                productsToShow.add(Product.fromJson(savedProductList.get(i)));
+                ((RecyclerView) recyclerView).setAdapter(new SimpleItemRecyclerViewAdapter(productsToShow));
+            }
 
-                if (savedInstanceState.get(PRODUCT_CLICKED) != null) {
-                    productClickedTwoPane = Product.fromJson(savedInstanceState.getString(PRODUCT_CLICKED));
-                }
+            if (savedInstanceState.get(PRODUCT_CLICKED) != null) {
+                productClickedTwoPane = Product.fromJson(savedInstanceState.getString(PRODUCT_CLICKED));
+            }
         }
         else {
             setupRecyclerView((RecyclerView) recyclerView);
@@ -128,7 +128,6 @@ public class ItemListActivity extends AppCompatActivity {
             // large-screen layouts (res/values-w900dp).
             // If this view is present, then the
             // activity should be in two-pane mode.
-            Log.d(TAG, "onCreate: MTWOPANE");
             mTwoPane = true;
 
             fab.setOnClickListener(new View.OnClickListener() {
@@ -328,12 +327,17 @@ public class ItemListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
+
+            final String urlImage = mValues.get(position).getImages().get(0).getSrc();
+            final String uriTitle = mValues.get(position).getTitle();
+            final String uriDescription = mValues.get(position).getBodyHtml().replaceAll("<br>", "\n");
+
             holder.mItem = mValues.get(position);
             holder.mTitleView.setText(mValues.get(position).getTitle());
             holder.mPriceView.setText(getShopifyApplication().getCurrency() + " " +
                     mValues.get(position).getVariants().get(0).getPrice());
             holder.mImageView.setImageUrl(
-                    mValues.get(position).getImages().get(0).getSrc(),
+                    urlImage,
                     ImageLoaderHelper.getInstance(ItemListActivity.this).getImageLoader());
 
             //TODO FIX THIS
@@ -343,28 +347,14 @@ public class ItemListActivity extends AppCompatActivity {
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mTwoPane) {
-                        productClickedTwoPane = holder.mItem;
+                    gotoDetails(holder, v);
+                }
+            });
 
-                        Bundle arguments = new Bundle();
-                        arguments.putString(
-                                ItemDetailFragment.ARG_ITEM_ID, holder.mItem.toJsonString());
-                        ItemDetailFragment fragment = new ItemDetailFragment();
-                        fragment.setArguments(arguments);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.card_detail_container, fragment)
-                                .commit();
-                    } else {
-                        Context context = v.getContext();
-                        Intent intent = new Intent(context, ItemDetailActivity.class);
-                        intent.putExtra(
-                                ItemDetailFragment.ARG_ITEM_ID, holder.mItem.toJsonString());
-                        ActivityOptionsCompat options = ActivityOptionsCompat.
-                                makeSceneTransitionAnimation(mContext,
-                                        (View) holder.mImageView,
-                                        getResources().getString(R.string.image_transition));
-                        startActivity(intent, options.toBundle());
-                    }
+            holder.mImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    gotoDetails(holder, v);
                 }
             });
 
@@ -383,6 +373,31 @@ public class ItemListActivity extends AppCompatActivity {
                             mValues.get(position).getBodyHtml();
 
             holder.mView.setContentDescription(contentDescription);
+        }
+
+        private void gotoDetails(ViewHolder holder, View view) {
+            if (mTwoPane) {
+                productClickedTwoPane = holder.mItem;
+
+                Bundle arguments = new Bundle();
+                arguments.putString(
+                        ItemDetailFragment.ARG_ITEM_ID, holder.mItem.toJsonString());
+                ItemDetailFragment fragment = new ItemDetailFragment();
+                fragment.setArguments(arguments);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.card_detail_container, fragment)
+                        .commit();
+            } else {
+                Context context = view.getContext();
+                Intent intent = new Intent(context, ItemDetailActivity.class);
+                intent.putExtra(
+                        ItemDetailFragment.ARG_ITEM_ID, holder.mItem.toJsonString());
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(mContext,
+                                (View) holder.mImageView,
+                                getResources().getString(R.string.image_transition));
+                startActivity(intent, options.toBundle());
+            }
         }
 
         @Override

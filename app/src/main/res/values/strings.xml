@@ -62,6 +62,7 @@
     <string name="taxes">Taxes</string>
     <string name="total">Total</string>
     <string name="delete">Delete</string>
+    <string name="share">Share</string>
 
     <!-- Custom URL Scheme -->
     <string name="web_return_to_scheme">pizuicas</string>
@@ -101,5 +102,7 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
 
+    <!-- Share values -->
+    <string name="share_invitation" formatted="false">Check out this original 3d printed design named %s created by %s! You can check more in pizuicas.com!</string>
 
 </resources>

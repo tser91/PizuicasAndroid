@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -28,6 +31,8 @@ import com.shopify.buy.model.Product;
 public class ItemDetailActivity extends AppCompatActivity {
 
     private final String TAG = ItemDetailFragment.class.getName();
+
+    private android.support.v7.widget.ShareActionProvider mShareActionProvider;
 
     /**
      * The {@link Tracker} used to record screen views.
@@ -82,7 +87,6 @@ public class ItemDetailActivity extends AppCompatActivity {
         });
 
 
-
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
         // (e.g. when rotating the screen from portrait to landscape).
@@ -113,6 +117,31 @@ public class ItemDetailActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.detail_menu, menu);
+
+        // Locate MenuItem with ShareActionProvider
+        MenuItem item = menu.findItem(R.id.menu_details);
+
+        // Fetch and store ShareActionProvider
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        //shareIntent.putExtra(Intent.EXTRA_SUBJECT, mItem.getImages().get(0).getSrc());
+
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, mItem.getTitle());
+        shareIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_invitation,
+                mItem.getTitle(),
+                mItem.getVendor()));
+        
+        mShareActionProvider.setShareIntent(shareIntent);
+
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
@@ -124,6 +153,11 @@ public class ItemDetailActivity extends AppCompatActivity {
             //
             navigateUpTo(new Intent(this, ItemListActivity.class));
             return true;
+        }
+        if (id == R.id.menu_details) {
+            Log.d(TAG, "onOptionsItemSelected: PASA POR ACA");
+
+
         }
         return super.onOptionsItemSelected(item);
     }
