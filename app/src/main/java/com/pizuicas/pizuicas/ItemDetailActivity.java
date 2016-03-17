@@ -134,8 +134,9 @@ public class ItemDetailActivity extends AppCompatActivity {
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, mItem.getTitle());
         shareIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_invitation,
                 mItem.getTitle(),
-                mItem.getVendor()));
-        
+                mItem.getVendor(),
+                mItem.getBodyHtml().replaceAll("<br>", "\n")));
+
         mShareActionProvider.setShareIntent(shareIntent);
 
         return true;

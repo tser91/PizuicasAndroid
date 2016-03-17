@@ -103,6 +103,6 @@
     <string name="add_widget">Add widget</string>
 
     <!-- Share values -->
-    <string name="share_invitation" formatted="false">Check out this original 3d printed design named %s created by %s! You can check more in pizuicas.com!</string>
+    <string name="share_invitation" formatted="false">Check out this original 3d printed design named %s created by %s! You can check more in pizuicas.com! \n This is the item\'s story: \n %s</string>
 
 </resources>
