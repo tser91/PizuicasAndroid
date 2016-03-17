@@ -33,4 +33,5 @@ dependencies {
     compile 'com.github.supervital:swipenumberpicker:1.0.3'
     compile files('libs/volley.jar')
     compile 'me.grantland:autofittextview:0.2.+'
+    compile 'com.google.android.gms:play-services:8.1.0'
 }
