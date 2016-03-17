@@ -3,7 +3,6 @@ package com.pizuicas.pizuicas;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -75,6 +74,8 @@ public class CheckoutInformationActivity extends AppCompatActivity {
             }
         });
 
+        initializeCheckout();
+
         inputLayoutName = (TextInputLayout) findViewById(R.id.inputLayout_name);
         inputLayoutLastName = (TextInputLayout) findViewById(R.id.inputLayout_last_name);
         inputLayoutEmail = (TextInputLayout) findViewById(R.id.inputLayout_email);
@@ -109,13 +110,30 @@ public class CheckoutInformationActivity extends AppCompatActivity {
         // [END shared_tracker]
     }
 
-    private void createCheckout(Address address, String email) {
-        getShopifyApplication().createCheckout(address, email, new Callback<Checkout>() {
+    private void initializeCheckout() {
+
+        Callback<Checkout> callback = new Callback<Checkout>() {
             @Override
             public void success(Checkout checkout, Response response) {
-                //dismissLoadingDialog();
-                //onCheckoutCreated(checkout);
                 Log.d(TAG, "success: checkout created");
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(TAG, "failure: could not create checkout");
+                onError(error);
+            }
+        };
+
+        getShopifyApplication().createCheckout(callback);
+    }
+
+    private void updateCheckout(Address address, String email) {
+
+        Callback<Checkout> callback = new Callback<Checkout>() {
+            @Override
+            public void success(Checkout checkout, Response response) {
+                Log.d(TAG, "success: checkout updated");
                 mTracker.send(new HitBuilders.EventBuilder()
                         .setCategory("Action")
                         .setAction("GoToCheckoutWeb")
@@ -128,9 +146,12 @@ public class CheckoutInformationActivity extends AppCompatActivity {
 
             @Override
             public void failure(RetrofitError error) {
+                Log.d(TAG, "failure: checkout could not be updated");
                 onError(error);
             }
-        });
+        };
+
+        getShopifyApplication().updateCheckout(address, email, callback);
     }
 
     private void setCheckoutInfo() {
@@ -144,7 +165,7 @@ public class CheckoutInformationActivity extends AppCompatActivity {
         address.setProvince(inputProvince.getText().toString());
         address.setZip(inputZip.getText().toString());
 
-        createCheckout(address, inputEmail.getText().toString());
+        updateCheckout(address, inputEmail.getText().toString());
     }
 
     /**
@@ -266,38 +287,6 @@ public class CheckoutInformationActivity extends AppCompatActivity {
         if (view.requestFocus()) {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
-    }
-
-    private void pollCheckoutCompletionStatus() {
-
-        Callback<Boolean> callback = new Callback<Boolean>() {
-            @Override
-            public void success(Boolean complete, Response response) {
-                if (complete) {
-                    // Notify the user that the order is complete
-                    Log.d(TAG, "success: order has been completed");
-                    Toast.makeText(
-                            getApplicationContext(),
-                            getResources().getString(R.string.checkout_complete),
-                            Toast.LENGTH_LONG).show();
-                } else {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            pollCheckoutCompletionStatus();
-                        }
-                    }, 250);
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                onError(error);
-            }
-        };
-
-        getShopifyApplication().getCheckoutCompletionStatus(callback);
-
     }
 
     protected void onError(RetrofitError error) {

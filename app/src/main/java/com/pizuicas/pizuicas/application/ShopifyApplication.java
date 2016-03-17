@@ -2,6 +2,7 @@ package com.pizuicas.pizuicas.application;
 
 import android.app.Application;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -27,6 +28,8 @@ import retrofit.client.Response;
  * Application class that maintains instances of BuyClient and Checkout for the lifetime of the app.
  */
 public class ShopifyApplication extends Application {
+
+    private final String TAG = ShopifyApplication.class.getName();
 
     Cart cart;
     /* Tracker for Google Analytics service */
@@ -112,9 +115,20 @@ public class ShopifyApplication extends Application {
      *
      * @param callback
      */
-    public void createCheckout(Address address, String email, final Callback<Checkout> callback) {
+    public void createCheckout(final Callback<Checkout> callback) {
 
         checkout = new Checkout(cart);
+        buyClient.createCheckout(checkout, wrapCheckoutCallback(callback));
+    }
+
+    /**
+     * Update a checkout with the buyer information.
+     *
+     * @param address
+     * @param email
+     * @param callback
+     */
+    public void updateCheckout(Address address, String email, final Callback<Checkout> callback) {
 
         checkout.setShippingAddress(address);
 
@@ -123,7 +137,9 @@ public class ShopifyApplication extends Application {
         checkout.setWebReturnToUrl(getString(R.string.web_return_to_url));
         checkout.setWebReturnToLabel(getString(R.string.web_return_to_label));
 
-        buyClient.createCheckout(checkout, wrapCheckoutCallback(callback));
+        Log.d(TAG, "createCheckout: LLEGA CON EL CHECKOUT LLENO");
+
+        buyClient.updateCheckout(checkout, wrapCheckoutCallback(callback));
     }
 
     public Checkout getCheckout() {
