@@ -191,7 +191,7 @@ public class CheckoutInformationActivity extends AppCompatActivity implements
     }
 
     private void updateCheckout(Address address, String email) {
-
+        Log.d(TAG, "updateCheckout: ");
         Callback<Checkout> callback = new Callback<Checkout>() {
             @Override
             public void success(Checkout checkout, Response response) {
@@ -217,7 +217,7 @@ public class CheckoutInformationActivity extends AppCompatActivity implements
     }
 
     private void setCheckoutInfo() {
-
+        Log.d(TAG, "setCheckoutInfo: ");
         Address address = new Address();
         address.setAddress1(inputAddress.getText().toString());
         address.setCity(inputCity.getText().toString());

@@ -117,6 +117,7 @@ public class ShopifyApplication extends Application {
      */
     public void createCheckout(final Callback<Checkout> callback) {
 
+        Log.d(TAG, "createCheckout: Creates checkout with cart.");
         checkout = new Checkout(cart);
         buyClient.createCheckout(checkout, wrapCheckoutCallback(callback));
     }

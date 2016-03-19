@@ -58,6 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
             android:layout_margin="@dimen/text_margin"
+            android:nextFocusRight="@id/fab"
             app:snp_arrowColor="@android:color/white"
             app:snp_backgroundColor="@color/colorAccent"
             app:snp_max="100"
@@ -73,6 +74,8 @@
             android:layout_marginEnd="@dimen/spacing_16dp"
             android:layout_marginRight="@dimen/spacing_16dp"
             android:clickable="true"
+            android:nextFocusRight="@id/fab"
+            android:nextFocusUp="@id/number_picker"
             android:onClick="onItemDelete"
             android:text="@string/delete"
             android:textSize="@dimen/text_small"/>

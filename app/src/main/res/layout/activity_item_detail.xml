@@ -57,6 +57,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:contentDescription="@string/product_to_cart"
+        android:nextFocusLeft="@+id/item_detail"
         android:src="@drawable/ic_add_cart" />
 
 </android.support.design.widget.CoordinatorLayout>

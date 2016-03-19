@@ -15,6 +15,8 @@
         android:layout_marginLeft="@dimen/detail_inner_horiz_margin"
         android:layout_marginRight="@dimen/detail_inner_horiz_margin"
         android:layout_marginStart="@dimen/detail_inner_horiz_margin"
+        android:nextFocusRight="@+id/fab_detail"
+        android:nextFocusUp="@+id/menu_details"
         android:padding="@dimen/spacing_16dp"
         android:textIsSelectable="true"
      />

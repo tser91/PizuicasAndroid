@@ -28,8 +28,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/reg_form_name"
-                android:drawableLeft="@drawable/ic_checkout"
-                android:drawableStart="@drawable/ic_checkout"
                 android:hint="@string/reg_form_name"
                 android:inputType="textPersonName" />
         </android.support.design.widget.TextInputLayout>
@@ -43,10 +41,9 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/reg_form_last_name"
-                android:drawableLeft="@drawable/ic_checkout"
-                android:drawableStart="@drawable/ic_checkout"
                 android:hint="@string/reg_form_last_name"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:nextFocusUp="@id/form_name" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -58,10 +55,9 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/reg_form_email"
-                android:drawableLeft="@drawable/ic_checkout"
-                android:drawableStart="@drawable/ic_checkout"
-android:hint="@string/reg_form_email"
-                android:inputType="textEmailAddress" />
+                android:hint="@string/reg_form_email"
+android:inputType="textEmailAddress"
+                android:nextFocusUp="@id/form_last_name" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -73,9 +69,8 @@ android:hint="@string/reg_form_email"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/reg_form_address"
-                android:drawableLeft="@drawable/ic_checkout"
-                android:drawableStart="@drawable/ic_checkout"
-                android:hint="@string/reg_form_address" />
+                android:hint="@string/reg_form_address"
+                android:nextFocusUp="@id/form_email" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -87,9 +82,8 @@ android:hint="@string/reg_form_email"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/reg_form_city"
-                android:drawableLeft="@drawable/ic_checkout"
-                android:drawableStart="@drawable/ic_checkout"
-                android:hint="@string/reg_form_city" />
+                android:hint="@string/reg_form_city"
+                android:nextFocusUp="@id/form_address" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -101,9 +95,8 @@ android:hint="@string/reg_form_email"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/reg_form_province"
-                android:drawableLeft="@drawable/ic_checkout"
-                android:drawableStart="@drawable/ic_checkout"
-                android:hint="@string/reg_form_province" />
+                android:hint="@string/reg_form_province"
+                android:nextFocusUp="@id/form_city" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -115,10 +108,9 @@ android:hint="@string/reg_form_email"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/reg_form_zip"
-                android:drawableLeft="@drawable/ic_checkout"
-                android:drawableStart="@drawable/ic_checkout"
                 android:hint="@string/reg_form_zip"
-                android:inputType="textPostalAddress" />
+                android:inputType="textPostalAddress"
+                android:nextFocusUp="@id/form_province" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -130,9 +122,8 @@ android:hint="@string/reg_form_email"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/reg_form_country_code"
-                android:drawableLeft="@drawable/ic_checkout"
-                android:drawableStart="@drawable/ic_checkout"
-                android:hint="@string/reg_form_country_code" />
+                android:hint="@string/reg_form_country_code"
+                android:nextFocusUp="@id/form_zip" />
         </android.support.design.widget.TextInputLayout>
 
         <Button android:id="@+id/btn_checkout"
@@ -142,6 +133,7 @@ android:hint="@string/reg_form_email"
             android:layout_marginTop="40dp"
             android:background="@color/colorPrimary"
             android:contentDescription="@string/checkout"
+            android:nextFocusUp="@id/form_country"
             android:text="@string/checkout"
             android:textColor="@android:color/white"/>
 
