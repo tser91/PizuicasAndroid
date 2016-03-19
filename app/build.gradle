@@ -6,7 +6,7 @@ android {
         config {
             keyAlias 'PizuicasAndroidKey'
             keyPassword 'Berserk29'
-            storeFile file('app/android.jks')
+            storeFile file('android.jks')
             storePassword 'Berserk29'
         }
     }
