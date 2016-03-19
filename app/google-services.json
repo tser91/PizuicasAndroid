@@ -1,0 +1,64 @@
+{
+  "project_info": {
+    "project_id": "pizuicas-1223",
+    "project_number": "72278774077",
+    "name": "Pizuicas"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72278774077:android:c0926c1b5801ea06",
+        "client_id": "android:com.pizuicas.pizuicas",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.pizuicas.pizuicas",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "72278774077-6hn7jpr373hvs6fpefbj65nr4tt3qus6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pizuicas.pizuicas",
+            "certificate_hash": "22999EF8DFB14A9506BF22D5CE22737E7BEBD9C2"
+          }
+        },
+        {
+          "client_id": "72278774077-srmmh7qtoohod0hhacao9cu24shif0vq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-65641300-1"
+          }
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "72278774077-srmmh7qtoohod0hhacao9cu24shif0vq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}
